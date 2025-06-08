@@ -1,0 +1,3 @@
+CXX := clang++
+CXXFLAGS :=
+TESTS := 
