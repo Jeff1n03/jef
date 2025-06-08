@@ -1,4 +1,5 @@
 #include "HuffmanTree.h"
+#include "HuffmanTreeNode.h"
 #include "HuffmanTreeNodeComparator.h"
 #include <queue>
 #include <vector>
@@ -19,6 +20,9 @@ HuffmanTreeNode *HuffmanTree::generateTree() {
     for (const auto &pair : this->frequencyTable) {
         pqueue.push(
             new HuffmanTreeNode{new unsigned char{pair.first}, pair.second});
+    }
+    if (pqueue.size() == 1) {
+        pqueue.push(new HuffmanTreeNode{nullptr, 0});
     }
     while (pqueue.size() > 1) {
         HuffmanTreeNode *yin = pqueue.top();

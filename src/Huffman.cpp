@@ -27,6 +27,9 @@ void Huffman::encode() {
         return;
     }
     HuffmanTree *huffmanTree = new HuffmanTree{frequencies};
+    if (!huffmanTree->getRoot()) {
+        return;
+    }
 }
 
 unordered_map<unsigned char, uint64_t> Huffman::frequencyTable() {
