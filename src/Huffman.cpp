@@ -1,21 +1,8 @@
+#include "Huffman.h"
 #include "HuffmanTree.h"
-#include <cstdint>
 #include <fstream>
-#include <string>
-#include <unordered_map>
 
 using namespace std;
-
-class Huffman {
-    private:
-        string filename;
-        unordered_map<unsigned char, uint64_t> frequencyTable();
-
-    public:
-        Huffman(string &filename);
-        string getFilename();
-        void encode();
-};
 
 Huffman::Huffman(string &filename) : filename(filename) {}
 

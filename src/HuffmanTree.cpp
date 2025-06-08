@@ -1,8 +1,6 @@
 #include "HuffmanTree.h"
-#include "HuffmanTreeNode.h"
 #include "HuffmanTreeNodeComparator.h"
 #include <queue>
-#include <vector>
 
 using namespace std;
 using HuffmanPQ = priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
