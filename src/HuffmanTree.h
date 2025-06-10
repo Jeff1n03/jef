@@ -23,7 +23,7 @@ class HuffmanTree {
     public:
         HuffmanTree(
             std::unordered_map<unsigned char, uint64_t> &frequencyTable);
-        // TODO destructor
+        ~HuffmanTree();
         HuffmanTreeNode *getRoot();
         std::unordered_map<unsigned char, uint64_t> getFrequencyTable();
         uint8_t depth();

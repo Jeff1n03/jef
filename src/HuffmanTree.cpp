@@ -32,6 +32,24 @@ HuffmanTree::HuffmanTree(unordered_map<unsigned char, uint64_t> &frequencyTable)
     }
 }
 
+HuffmanTree::~HuffmanTree() {
+    if (root) {
+        queue<HuffmanTreeNode *> q;
+        q.push(this->root);
+        while (!q.empty()) {
+            HuffmanTreeNode *curr = q.front();
+            q.pop();
+            if (curr->left) {
+                q.push(curr->left);
+            }
+            if (curr->right) {
+                q.push(curr->right);
+            }
+            delete curr;
+        }
+    }
+}
+
 HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
 
 unordered_map<unsigned char, uint64_t> HuffmanTree::getFrequencyTable() {
