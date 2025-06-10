@@ -1,42 +1,44 @@
 #include "HuffmanTree.h"
-#include "HuffmanTreeNodeComparator.h"
 #include <queue>
 
 using namespace std;
-using HuffmanPQ = priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
-                                 HuffmanTreeNodeComparator>;
+using HuffmanTreeNodePQ =
+    priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
+                   HuffmanTreeNodeComparator>;
 
 HuffmanTree::HuffmanTree(unordered_map<unsigned char, uint64_t> &frequencyTable)
-    : frequencyTable(frequencyTable), root(generateTree()),
-      depth(calculateDepth()) {}
-
-HuffmanTreeNode *HuffmanTree::generateTree() {
+    : frequencyTable(frequencyTable) {
     if (this->frequencyTable.empty()) {
-        return nullptr;
+        this->root = nullptr;
+    } else {
+        HuffmanTreeNodePQ pqueue;
+        for (const auto &pair : this->frequencyTable) {
+            pqueue.push(new HuffmanTreeNode{new unsigned char{pair.first},
+                                            pair.second, nullptr, nullptr});
+        }
+        if (pqueue.size() == 1) {
+            pqueue.push(new HuffmanTreeNode{nullptr, 0, nullptr, nullptr});
+        }
+        while (pqueue.size() > 1) {
+            HuffmanTreeNode *yin = pqueue.top();
+            pqueue.pop();
+            HuffmanTreeNode *yang = pqueue.top();
+            pqueue.pop();
+            HuffmanTreeNode *yinYang = new HuffmanTreeNode{
+                nullptr, yin->count + yang->count, yang, yin};
+            pqueue.push(yinYang);
+        }
+        this->root = pqueue.top();
     }
-    HuffmanPQ pqueue;
-    for (const auto &pair : this->frequencyTable) {
-        pqueue.push(
-            new HuffmanTreeNode{new unsigned char{pair.first}, pair.second});
-    }
-    if (pqueue.size() == 1) {
-        pqueue.push(new HuffmanTreeNode{nullptr, 0});
-    }
-    while (pqueue.size() > 1) {
-        HuffmanTreeNode *yin = pqueue.top();
-        pqueue.pop();
-        HuffmanTreeNode *yang = pqueue.top();
-        pqueue.pop();
-        HuffmanTreeNode *yinYang =
-            new HuffmanTreeNode{nullptr, yin->count + yang->count};
-        yinYang->left = yang;
-        yinYang->right = yin;
-        pqueue.push(yinYang);
-    }
-    return pqueue.top();
 }
 
-uint8_t HuffmanTree::calculateDepth() {
+HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
+
+unordered_map<unsigned char, uint64_t> HuffmanTree::getFrequencyTable() {
+    return this->frequencyTable;
+}
+
+uint8_t HuffmanTree::depth() {
     if (!root) {
         return 0;
     }
@@ -59,7 +61,3 @@ uint8_t HuffmanTree::calculateDepth() {
     }
     return height - 1;
 }
-
-HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
-
-uint8_t HuffmanTree::getDepth() { return this->depth; }
