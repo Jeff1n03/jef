@@ -50,11 +50,11 @@ HuffmanTree::~HuffmanTree() {
     }
 }
 
-HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
-
 unordered_map<unsigned char, uint64_t> HuffmanTree::getFrequencyTable() {
     return this->frequencyTable;
 }
+
+HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
 
 uint8_t HuffmanTree::depth() {
     if (!root) {
