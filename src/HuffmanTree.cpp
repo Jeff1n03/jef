@@ -56,16 +56,16 @@ unordered_map<unsigned char, uint64_t> HuffmanTree::getFrequencyTable() {
 
 HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
 
-uint8_t HuffmanTree::depth() {
+int HuffmanTree::depth() {
     if (!root) {
         return 0;
     }
     queue<HuffmanTreeNode *> q;
     q.push(this->root);
-    uint8_t height = 0;
+    int height = 0;
     while (!q.empty()) {
-        uint8_t levelSize = q.size();
-        for (uint8_t i = 0; i < levelSize; i++) {
+        int levelSize = q.size();
+        for (int i = 0; i < levelSize; i++) {
             HuffmanTreeNode *curr = q.front();
             q.pop();
             if (curr->left) {
@@ -78,4 +78,33 @@ uint8_t HuffmanTree::depth() {
         height++;
     }
     return height - 1;
+}
+
+void codeTableHelper(HuffmanTreeNode *curr, int length, uint64_t code,
+                     std::unordered_map<unsigned char, uint64_t> &codes,
+                     int lengths[arrSize]) {
+    if (curr->ascii) {
+        lengths[*(curr->ascii)] = length;
+        codes[*(curr->ascii)] = code;
+        return;
+    }
+    if (!curr->left && !curr->right) {
+        return;
+    }
+    if (curr->left) {
+        return codeTableHelper(curr->left, length + 1, (code << 1) | 1, codes,
+                               lengths);
+    }
+    if (curr->right) {
+        return codeTableHelper(curr->right, length + 1, code << 1, codes,
+                               lengths);
+    }
+}
+
+unordered_map<unsigned char, uint64_t>
+HuffmanTree::codeTable(int codeLengths[arrSize]) {
+    memset(codeLengths, 0, sizeof(int) * arrSize);
+    unordered_map<unsigned char, uint64_t> codes = this->frequencyTable;
+    codeTableHelper(this->root, 0, 0, codes, codeLengths);
+    return codes;
 }
