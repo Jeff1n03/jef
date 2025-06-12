@@ -1,4 +1,4 @@
 # macOS system files
 .DS_Store
 # VIm swap files
-.*.s??
+.*.*.s??
