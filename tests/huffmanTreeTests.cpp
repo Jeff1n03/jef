@@ -27,15 +27,15 @@ void testOne() {
     curr = curr->right;
     assert(curr->ascii && *(curr->ascii) == static_cast<unsigned char>('a') &&
            curr->count == 1 && !curr->left && !curr->right);
-    int actualLengths[arrSize];
+    uint8_t actualLengths[arrSize];
     unordered_map<unsigned char, uint64_t> actualCodes =
         actualTree.codeTable(actualLengths);
-    int expectedLengths[arrSize] = {};
+    uint8_t expectedLengths[arrSize] = {};
     expectedLengths[static_cast<unsigned char>('a')] = 3;
     expectedLengths[static_cast<unsigned char>('b')] = 3;
     expectedLengths[static_cast<unsigned char>('c')] = 2;
     expectedLengths[static_cast<unsigned char>('d')] = 1;
-    for (int i = 0; i < arrSize; i++) {
+    for (size_t i = 0; i < arrSize; i++) {
         assert(actualLengths[i] == expectedLengths[i]);
     }
     unordered_map<unsigned char, uint64_t> expectedCodes = {

@@ -83,7 +83,7 @@ int HuffmanTree::depth() {
 void HuffmanTree::codeTableHelper(HuffmanTreeNode *curr, int length,
                                   uint64_t code,
                                   unordered_map<unsigned char, uint64_t> &codes,
-                                  int lengths[arrSize]) {
+                                  uint8_t lengths[arrSize]) {
     if (curr->ascii) {
         lengths[*(curr->ascii)] = length;
         codes[*(curr->ascii)] = code;
@@ -102,8 +102,8 @@ void HuffmanTree::codeTableHelper(HuffmanTreeNode *curr, int length,
 }
 
 unordered_map<unsigned char, uint64_t>
-HuffmanTree::codeTable(int codeLengths[arrSize]) {
-    memset(codeLengths, 0, sizeof(int) * arrSize);
+HuffmanTree::codeTable(uint8_t codeLengths[arrSize]) {
+    memset(codeLengths, 0, arrSize);
     unordered_map<unsigned char, uint64_t> codes = this->frequencyTable;
     codeTableHelper(this->root, 0, 0, codes, codeLengths);
     return codes;

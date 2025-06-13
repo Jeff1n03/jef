@@ -1,10 +1,9 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
-#include <cstdint>
 #include <unordered_map>
 
-constexpr int arrSize = 256;
+constexpr size_t arrSize = 256;
 
 struct HuffmanTreeNode {
         unsigned char *ascii;
@@ -24,7 +23,7 @@ class HuffmanTree {
         HuffmanTreeNode *root;
         void codeTableHelper(HuffmanTreeNode *curr, int length, uint64_t code,
                              std::unordered_map<unsigned char, uint64_t> &codes,
-                             int lengths[arrSize]);
+                             uint8_t lengths[arrSize]);
 
     public:
         HuffmanTree(
@@ -32,7 +31,7 @@ class HuffmanTree {
         ~HuffmanTree();
         HuffmanTreeNode *getRoot();
         std::unordered_map<unsigned char, uint64_t> getFrequencyTable(),
-            codeTable(int codeLengths[arrSize]);
+            codeTable(uint8_t codeLengths[arrSize]);
         int depth();
 };
 
