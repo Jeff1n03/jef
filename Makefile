@@ -1,11 +1,19 @@
-output: tests/huffmanTreeTests.o src/HuffmanTree.o
-	clang++ -std=c++17 -Wall tests/huffmanTreeTests.o src/HuffmanTree.o -o output
+CXX := clang++
+CXXFLAGS := -std=c++17 -Wall
+
+all:
+
+huffmanTreeTest: tests/huffmanTreeTests.o src/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) tests/huffmanTreeTests.o src/HuffmanTree.o -o huffmanTreeTest
 
 tests/huffmanTreeTests.o: tests/huffmanTreeTests.cpp
-	clang++ -c -std=c++17 -Wall tests/huffmanTreeTests.cpp -o tests/huffmanTreeTests.o
+	$(CXX) $(CXXFLAGS) -c tests/huffmanTreeTests.cpp -o tests/huffmanTreeTests.o
 
 src/HuffmanTree.o: src/HuffmanTree.cpp src/HuffmanTree.h
-	clang++ -c -std=c++17 -Wall src/HuffmanTree.cpp -o src/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) -c src/HuffmanTree.cpp -o src/HuffmanTree.o
+
+test: huffmanTreeTest
+	./huffmanTreeTest
 
 clean:
-	rm tests/*.o src/*.o output
+	rm tests/*.o src/*.o huffmanTreeTest
