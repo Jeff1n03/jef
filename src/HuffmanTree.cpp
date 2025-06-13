@@ -80,9 +80,10 @@ int HuffmanTree::depth() {
     return height - 1;
 }
 
-void codeTableHelper(HuffmanTreeNode *curr, int length, uint64_t code,
-                     std::unordered_map<unsigned char, uint64_t> &codes,
-                     int lengths[arrSize]) {
+void HuffmanTree::codeTableHelper(HuffmanTreeNode *curr, int length,
+                                  uint64_t code,
+                                  unordered_map<unsigned char, uint64_t> &codes,
+                                  int lengths[arrSize]) {
     if (curr->ascii) {
         lengths[*(curr->ascii)] = length;
         codes[*(curr->ascii)] = code;
@@ -92,12 +93,11 @@ void codeTableHelper(HuffmanTreeNode *curr, int length, uint64_t code,
         return;
     }
     if (curr->left) {
-        return codeTableHelper(curr->left, length + 1, (code << 1) | 1, codes,
-                               lengths);
+        codeTableHelper(curr->left, length + 1, code << 1, codes, lengths);
     }
     if (curr->right) {
-        return codeTableHelper(curr->right, length + 1, code << 1, codes,
-                               lengths);
+        codeTableHelper(curr->right, length + 1, (code << 1) | 1, codes,
+                        lengths);
     }
 }
 
