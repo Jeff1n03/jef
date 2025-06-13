@@ -18,4 +18,4 @@ test: $(TESTS)
 	./bin/$(TESTS)
 
 clean:
-	rm build/*.o bin/*
+	rm build/* bin/*
