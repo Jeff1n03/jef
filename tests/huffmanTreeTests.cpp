@@ -1,4 +1,4 @@
-#include "../src/HuffmanTree.h"
+#include "../include/HuffmanTree.h"
 #include <cassert>
 #include <iostream>
 

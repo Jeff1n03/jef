@@ -1,19 +1,21 @@
 CXX := clang++
 CXXFLAGS := -std=c++17 -Wall
 
+TESTS := huffmanTreeTest
+
 all:
 
-huffmanTreeTest: tests/huffmanTreeTests.o src/HuffmanTree.o
-	$(CXX) $(CXXFLAGS) tests/huffmanTreeTests.o src/HuffmanTree.o -o huffmanTreeTest
+huffmanTreeTest: build/huffmanTreeTests.o build/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) build/huffmanTreeTests.o build/HuffmanTree.o -o bin/huffmanTreeTest
 
-tests/huffmanTreeTests.o: tests/huffmanTreeTests.cpp
-	$(CXX) $(CXXFLAGS) -c tests/huffmanTreeTests.cpp -o tests/huffmanTreeTests.o
+build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp
+	$(CXX) $(CXXFLAGS) -c tests/huffmanTreeTests.cpp -o build/huffmanTreeTests.o
 
-src/HuffmanTree.o: src/HuffmanTree.cpp src/HuffmanTree.h
-	$(CXX) $(CXXFLAGS) -c src/HuffmanTree.cpp -o src/HuffmanTree.o
+build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h
+	$(CXX) $(CXXFLAGS) -c src/HuffmanTree.cpp -o build/HuffmanTree.o
 
-test: huffmanTreeTest
-	./huffmanTreeTest
+test: $(TESTS)
+	./bin/$(TESTS)
 
 clean:
-	rm tests/*.o src/*.o huffmanTreeTest
+	rm build/*.o bin/*

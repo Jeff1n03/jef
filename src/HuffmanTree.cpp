@@ -1,4 +1,4 @@
-#include "HuffmanTree.h"
+#include "../include/HuffmanTree.h"
 #include <queue>
 
 using namespace std;
