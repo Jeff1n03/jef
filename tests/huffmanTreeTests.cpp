@@ -46,6 +46,7 @@ void testOne() {
 void testTwo() {
     unordered_map<unsigned char, uint64_t> map = {{'a', 1}, {'b', 1}};
     HuffmanTree huffmanTree = HuffmanTree{map};
+    assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
     assert(!root->ascii && root->count == 2 && root->left && root->right);
     HuffmanTreeNode *left = root->left;
@@ -76,6 +77,7 @@ void testTwo() {
 void testThree() {
     unordered_map<unsigned char, uint64_t> map = {{'\0', 1}};
     HuffmanTree huffmanTree = HuffmanTree{map};
+    assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
     assert(!root->ascii && root->count == 1 && root->left && root->right);
     HuffmanTreeNode *left = root->left;
