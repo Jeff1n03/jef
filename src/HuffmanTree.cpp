@@ -84,6 +84,9 @@ void HuffmanTree::codeTableHelper(HuffmanTreeNode *curr, int length,
                                   uint64_t code,
                                   unordered_map<unsigned char, uint64_t> &codes,
                                   uint8_t lengths[arrSize]) {
+    if (!curr) {
+        return;
+    }
     if (curr->ascii) {
         lengths[*(curr->ascii)] = length;
         codes[*(curr->ascii)] = code;

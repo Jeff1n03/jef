@@ -1,5 +1,6 @@
 #include "../include/Encode.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -12,14 +13,37 @@ Encode::Encode(string src) : src(src) {
             frequencies[static_cast<unsigned char>(byte)]++;
         }
         file.close();
+    } else {
+        cout << "failed" << endl;
     }
     HuffmanTree *huffmanTree = new HuffmanTree{frequencies};
     this->codes = huffmanTree->codeTable(this->lengths);
-    canonical();
+    if (!this->codes.empty()) {
+        canonical();
+    }
 }
 
 void Encode::canonical() {
-    // TODO
+    vector<unsigned char> sortedChars;
+    for (const auto &pair : this->codes) {
+        sortedChars.push_back(pair.first);
+    }
+    sort(sortedChars.begin(), sortedChars.end(),
+         [this](unsigned char a, unsigned char b) {
+             if (this->lengths[a] == this->lengths[b]) {
+                 return a < b;
+             }
+             return this->lengths[a] < this->lengths[b];
+         });
+    uint64_t code = 0;
+    this->codes[sortedChars[0]] = code;
+    uint8_t prevLen = this->lengths[sortedChars[0]];
+    for (int i = 1; i < sortedChars.size(); i++) {
+        uint8_t len = this->lengths[sortedChars[i]];
+        code = (code + 1) << (len - prevLen);
+        this->codes[sortedChars[i]] = code;
+        prevLen = len;
+    }
 }
 
 string Encode::getSrc() { return this->src; }
