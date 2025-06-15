@@ -10,6 +10,7 @@ void testOne() {
     HuffmanTree huffmanTree = HuffmanTree{map};
     assert(huffmanTree.depth() == 3);
     HuffmanTreeNode *curr = huffmanTree.getRoot();
+    assert(curr);
     assert(!curr->ascii && curr->count == 15 && curr->left && curr->right);
     assert(curr->left->ascii &&
            *(curr->left->ascii) == static_cast<unsigned char>('d') &&
@@ -48,6 +49,7 @@ void testTwo() {
     HuffmanTree huffmanTree = HuffmanTree{map};
     assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
+    assert(root);
     assert(!root->ascii && root->count == 2 && root->left && root->right);
     HuffmanTreeNode *left = root->left;
     assert(left->ascii && left->count == 1 && !left->left && !left->right);
@@ -79,6 +81,7 @@ void testThree() {
     HuffmanTree huffmanTree = HuffmanTree{map};
     assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
+    assert(root);
     assert(!root->ascii && root->count == 1 && root->left && root->right);
     HuffmanTreeNode *left = root->left;
     assert(left->ascii && *(left->ascii) == static_cast<unsigned char>('\0') &&
@@ -99,6 +102,20 @@ void testThree() {
     assert(actualCodes == expectedCodes);
 }
 
+void testFour() {
+    unordered_map<unsigned char, uint64_t> map;
+    HuffmanTree huffmanTree = HuffmanTree{map};
+    assert(huffmanTree.depth() == 0);
+    assert(!huffmanTree.getRoot());
+    uint8_t lengths[arrSize];
+    unordered_map<unsigned char, uint64_t> codes =
+        huffmanTree.codeTable(lengths);
+    for (size_t i = 0; i < arrSize; i++) {
+        assert(lengths[i] == 0);
+    }
+    assert(codes == map);
+}
+
 int main() {
     cout << "\nhuffmanTreeTests: Begin..." << endl;
     testOne();
@@ -107,6 +124,8 @@ int main() {
     cout << "huffmanTreeTests: Passed Test 2" << endl;
     testThree();
     cout << "huffmanTreeTests: Passed Test 3" << endl;
+    testFour();
+    cout << "huffmanTreeTests: Passed Test 4" << endl;
     cout << "huffmanTreeTests: ...Done" << endl;
     return 0;
 }
