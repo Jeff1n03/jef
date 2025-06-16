@@ -5,9 +5,12 @@
 using namespace std;
 
 void testOne() {
-    unordered_map<unsigned char, uint64_t> map = {
-        {'a', 1}, {'b', 2}, {'c', 4}, {'d', 8}};
-    HuffmanTree huffmanTree = HuffmanTree{map};
+    array<uint64_t, CHAR_COUNT> frequencies = {};
+    frequencies[static_cast<unsigned char>('a')] = 1;
+    frequencies[static_cast<unsigned char>('b')] = 2;
+    frequencies[static_cast<unsigned char>('c')] = 4;
+    frequencies[static_cast<unsigned char>('d')] = 8;
+    HuffmanTree huffmanTree = HuffmanTree{frequencies};
     assert(huffmanTree.depth() == 3);
     HuffmanTreeNode *curr = huffmanTree.getRoot();
     assert(curr);
@@ -28,25 +31,27 @@ void testOne() {
     curr = curr->right;
     assert(curr->ascii && *(curr->ascii) == static_cast<unsigned char>('a') &&
            curr->count == 1 && !curr->left && !curr->right);
-    uint8_t actualLengths[arrSize];
-    unordered_map<unsigned char, uint64_t> actualCodes =
-        huffmanTree.codeTable(actualLengths);
-    uint8_t expectedLengths[arrSize] = {};
+    array<uint8_t, CHAR_COUNT> actualLengths;
+    array<uint64_t, CHAR_COUNT> actualCodes = huffmanTree.codes(actualLengths);
+    array<uint8_t, CHAR_COUNT> expectedLengths = {};
     expectedLengths[static_cast<unsigned char>('a')] = 3;
     expectedLengths[static_cast<unsigned char>('b')] = 3;
     expectedLengths[static_cast<unsigned char>('c')] = 2;
     expectedLengths[static_cast<unsigned char>('d')] = 1;
-    for (size_t i = 0; i < arrSize; i++) {
-        assert(actualLengths[i] == expectedLengths[i]);
-    }
-    unordered_map<unsigned char, uint64_t> expectedCodes = {
-        {'a', 7}, {'b', 6}, {'c', 2}, {'d', 0}};
+    array<uint64_t, CHAR_COUNT> expectedCodes = {};
+    expectedCodes[static_cast<unsigned char>('a')] = 7;
+    expectedCodes[static_cast<unsigned char>('b')] = 6;
+    expectedCodes[static_cast<unsigned char>('c')] = 2;
+    expectedCodes[static_cast<unsigned char>('d')] = 0;
     assert(actualCodes == expectedCodes);
+    assert(actualLengths == expectedLengths);
 }
 
 void testTwo() {
-    unordered_map<unsigned char, uint64_t> map = {{'a', 1}, {'b', 1}};
-    HuffmanTree huffmanTree = HuffmanTree{map};
+    array<uint64_t, CHAR_COUNT> frequencies = {};
+    frequencies[static_cast<unsigned char>('a')] = 1;
+    frequencies[static_cast<unsigned char>('b')] = 1;
+    HuffmanTree huffmanTree = HuffmanTree{frequencies};
     assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
     assert(root);
@@ -59,26 +64,25 @@ void testTwo() {
     assert(right->ascii && right->count == 1 && !right->left && !right->right);
     assert(*(right->ascii) == static_cast<unsigned char>('a') ||
            *(right->ascii) == static_cast<unsigned char>('b'));
-    uint8_t lengths[arrSize];
-    unordered_map<unsigned char, uint64_t> codes =
-        huffmanTree.codeTable(lengths);
-    for (size_t i = 0; i < arrSize; i++) {
-        if (i == static_cast<unsigned char>('a')) {
-            assert(lengths[i] == 1);
-        } else if (i == static_cast<unsigned char>('b')) {
-            assert(lengths[i] == 1);
-        } else {
-            assert(lengths[i] == 0);
-        }
-    }
-    unordered_map<unsigned char, uint64_t> caseOne = {{'a', 0}, {'b', 1}};
-    unordered_map<unsigned char, uint64_t> caseTwo = {{'a', 1}, {'b', 0}};
-    assert(codes == caseOne || codes == caseTwo);
+    array<uint8_t, CHAR_COUNT> actualLengths;
+    array<uint64_t, CHAR_COUNT> actualCodes = huffmanTree.codes(actualLengths);
+    array<uint8_t, CHAR_COUNT> expectedLengths = {};
+    expectedLengths[static_cast<unsigned char>('a')] = 1;
+    expectedLengths[static_cast<unsigned char>('b')] = 1;
+    array<uint64_t, CHAR_COUNT> expectedCodes1 = {};
+    expectedCodes1[static_cast<unsigned char>('a')] = 0;
+    expectedCodes1[static_cast<unsigned char>('b')] = 1;
+    array<uint64_t, CHAR_COUNT> expectedCodes2 = {};
+    expectedCodes2[static_cast<unsigned char>('a')] = 1;
+    expectedCodes2[static_cast<unsigned char>('b')] = 0;
+    assert(actualCodes == expectedCodes1 || actualCodes == expectedCodes2);
+    assert(actualLengths == expectedLengths);
 }
 
 void testThree() {
-    unordered_map<unsigned char, uint64_t> map = {{'\0', 1}};
-    HuffmanTree huffmanTree = HuffmanTree{map};
+    array<uint64_t, CHAR_COUNT> frequencies = {};
+    frequencies[static_cast<unsigned char>('\0')] = 1;
+    HuffmanTree huffmanTree = HuffmanTree{frequencies};
     assert(huffmanTree.depth() == 1);
     HuffmanTreeNode *root = huffmanTree.getRoot();
     assert(root);
@@ -88,32 +92,27 @@ void testThree() {
            left->count == 1 && !left->left && !left->right);
     HuffmanTreeNode *right = root->right;
     assert(!right->ascii && right->count == 0 && !right->left && !right->right);
-    uint8_t lengths[arrSize];
-    unordered_map<unsigned char, uint64_t> actualCodes =
-        huffmanTree.codeTable(lengths);
-    for (size_t i = 0; i < arrSize; i++) {
-        if (i == static_cast<unsigned char>('\0')) {
-            assert(lengths[i] == 1);
-        } else {
-            assert(lengths[i] == 0);
-        }
-    }
-    unordered_map<unsigned char, uint64_t> expectedCodes = {{'\0', 0}};
+    array<uint8_t, CHAR_COUNT> actualLengths;
+    array<uint64_t, CHAR_COUNT> actualCodes = huffmanTree.codes(actualLengths);
+    array<uint8_t, CHAR_COUNT> expectedLengths = {};
+    expectedLengths[static_cast<unsigned char>('\0')] = 1;
+    array<uint64_t, CHAR_COUNT> expectedCodes = {};
+    expectedCodes[static_cast<unsigned char>('\0')] = 0;
     assert(actualCodes == expectedCodes);
+    assert(actualLengths == expectedLengths);
 }
 
 void testFour() {
-    unordered_map<unsigned char, uint64_t> map;
-    HuffmanTree huffmanTree = HuffmanTree{map};
+    array<uint64_t, CHAR_COUNT> frequencies = {};
+    HuffmanTree huffmanTree = HuffmanTree{frequencies};
     assert(huffmanTree.depth() == 0);
     assert(!huffmanTree.getRoot());
-    uint8_t lengths[arrSize];
-    unordered_map<unsigned char, uint64_t> codes =
-        huffmanTree.codeTable(lengths);
-    for (size_t i = 0; i < arrSize; i++) {
-        assert(lengths[i] == 0);
+    array<uint8_t, CHAR_COUNT> lengths = {0, 1, 2, 3};
+    array<uint64_t, CHAR_COUNT> codes = huffmanTree.codes(lengths);
+    assert(codes == frequencies);
+    for (uint8_t len : lengths) {
+        assert(len == 0);
     }
-    assert(codes == map);
 }
 
 int main() {

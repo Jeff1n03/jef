@@ -6,30 +6,31 @@ using HuffmanTreeNodePQ =
     priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
                    HuffmanTreeNodeComparator>;
 
-HuffmanTree::HuffmanTree(unordered_map<unsigned char, uint64_t> &frequencyTable)
-    : frequencyTable(frequencyTable) {
-    if (this->frequencyTable.empty()) {
-        this->root = nullptr;
-    } else {
-        HuffmanTreeNodePQ pqueue;
-        for (const auto &pair : this->frequencyTable) {
-            pqueue.push(new HuffmanTreeNode{new unsigned char{pair.first},
-                                            pair.second, nullptr, nullptr});
+HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
+    : frequencies(frequencies) {
+    HuffmanTreeNodePQ pqueue;
+    for (int i = 0; i < this->frequencies.size(); i++) {
+        if (this->frequencies[i] > 0) {
+            pqueue.push(new HuffmanTreeNode{
+                new unsigned char{static_cast<unsigned char>(i)},
+                this->frequencies[i], nullptr, nullptr});
         }
-        if (pqueue.size() == 1) {
-            pqueue.push(new HuffmanTreeNode{nullptr, 0, nullptr, nullptr});
-        }
-        while (pqueue.size() > 1) {
-            HuffmanTreeNode *yin = pqueue.top();
-            pqueue.pop();
-            HuffmanTreeNode *yang = pqueue.top();
-            pqueue.pop();
-            HuffmanTreeNode *yinYang = new HuffmanTreeNode{
-                nullptr, yin->count + yang->count, yang, yin};
-            pqueue.push(yinYang);
-        }
-        this->root = pqueue.top();
     }
+    if (pqueue.empty()) {
+        pqueue.push(nullptr);
+    } else if (pqueue.size() == 1) {
+        pqueue.push(new HuffmanTreeNode{nullptr, 0, nullptr, nullptr});
+    }
+    while (pqueue.size() > 1) {
+        HuffmanTreeNode *yin = pqueue.top();
+        pqueue.pop();
+        HuffmanTreeNode *yang = pqueue.top();
+        pqueue.pop();
+        HuffmanTreeNode *yinYang =
+            new HuffmanTreeNode{nullptr, yin->count + yang->count, yang, yin};
+        pqueue.push(yinYang);
+    }
+    this->root = pqueue.top();
 }
 
 HuffmanTree::~HuffmanTree() {
@@ -50,8 +51,8 @@ HuffmanTree::~HuffmanTree() {
     }
 }
 
-unordered_map<unsigned char, uint64_t> HuffmanTree::getFrequencyTable() {
-    return this->frequencyTable;
+array<uint64_t, CHAR_COUNT> HuffmanTree::getFrequencies() {
+    return this->frequencies;
 }
 
 HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
@@ -80,34 +81,33 @@ int HuffmanTree::depth() {
     return height - 1;
 }
 
-void HuffmanTree::codeTableHelper(HuffmanTreeNode *curr, int length,
-                                  uint64_t code,
-                                  unordered_map<unsigned char, uint64_t> &codes,
-                                  uint8_t lengths[arrSize]) {
-    if (!curr) {
+void HuffmanTree::codesHelper(HuffmanTreeNode *node, uint64_t code,
+                              uint8_t length,
+                              array<uint64_t, CHAR_COUNT> &codes,
+                              array<uint8_t, CHAR_COUNT> &lengths) {
+    if (!node) {
         return;
     }
-    if (curr->ascii) {
-        lengths[*(curr->ascii)] = length;
-        codes[*(curr->ascii)] = code;
+    if (node->ascii) {
+        codes[*(node->ascii)] = code;
+        lengths[*(node->ascii)] = length;
         return;
     }
-    if (!curr->left && !curr->right) {
+    if (!node->left && !node->right) {
         return;
     }
-    if (curr->left) {
-        codeTableHelper(curr->left, length + 1, code << 1, codes, lengths);
+    if (node->left) {
+        codesHelper(node->left, code << 1, length + 1, codes, lengths);
     }
-    if (curr->right) {
-        codeTableHelper(curr->right, length + 1, (code << 1) | 1, codes,
-                        lengths);
+    if (node->right) {
+        codesHelper(node->right, (code << 1) | 1, length + 1, codes, lengths);
     }
 }
 
-unordered_map<unsigned char, uint64_t>
-HuffmanTree::codeTable(uint8_t codeLengths[arrSize]) {
-    memset(codeLengths, 0, arrSize);
-    unordered_map<unsigned char, uint64_t> codes = this->frequencyTable;
-    codeTableHelper(this->root, 0, 0, codes, codeLengths);
+array<uint64_t, CHAR_COUNT>
+HuffmanTree::codes(array<uint8_t, CHAR_COUNT> &lengths) {
+    lengths.fill(0);
+    array<uint64_t, CHAR_COUNT> codes = {};
+    codesHelper(this->root, 0, 0, codes, lengths);
     return codes;
 }

@@ -1,9 +1,9 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
-#include <unordered_map>
+#include <array>
 
-constexpr size_t arrSize = 256;
+constexpr size_t CHAR_COUNT = 256;
 
 struct HuffmanTreeNode {
         unsigned char *ascii;
@@ -19,19 +19,18 @@ struct HuffmanTreeNodeComparator {
 
 class HuffmanTree {
     private:
-        std::unordered_map<unsigned char, uint64_t> frequencyTable;
+        std::array<uint64_t, CHAR_COUNT> frequencies;
         HuffmanTreeNode *root;
-        void codeTableHelper(HuffmanTreeNode *curr, int length, uint64_t code,
-                             std::unordered_map<unsigned char, uint64_t> &codes,
-                             uint8_t lengths[arrSize]);
+        void codesHelper(HuffmanTreeNode *node, uint64_t code, uint8_t length,
+                         std::array<uint64_t, CHAR_COUNT> &codes,
+                         std::array<uint8_t, CHAR_COUNT> &lengths);
 
     public:
-        HuffmanTree(
-            std::unordered_map<unsigned char, uint64_t> &frequencyTable);
+        HuffmanTree(std::array<uint64_t, CHAR_COUNT> &frequencies);
         ~HuffmanTree();
         HuffmanTreeNode *getRoot();
-        std::unordered_map<unsigned char, uint64_t> getFrequencyTable(),
-            codeTable(uint8_t codeLengths[arrSize]);
+        std::array<uint64_t, CHAR_COUNT> getFrequencies(),
+            codes(std::array<uint8_t, CHAR_COUNT> &lengths);
         int depth();
 };
 
