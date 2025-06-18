@@ -1,6 +1,5 @@
 #include "../include/Encode.h"
 #include <fstream>
-#include <numeric>
 
 using namespace std;
 
@@ -20,8 +19,12 @@ Encode::Encode(string src) : src(src) {
         throw invalid_argument("failed to initialize huffman tree");
     }
     this->codes = huffmanTree->codes(this->lengths);
-    vector<unsigned char> sorted(CHAR_COUNT);
-    iota(sorted.begin(), sorted.end(), 0);
+    vector<unsigned char> sorted;
+    for (size_t i = 0; i < CHAR_COUNT; i++) {
+        if (this->lengths[i] > 0) {
+            sorted.push_back(static_cast<unsigned char>(i));
+        }
+    }
     sort(sorted.begin(), sorted.end(),
          [this](unsigned char a, unsigned char b) {
              if (this->lengths[a] == this->lengths[b]) {

@@ -1,7 +1,7 @@
 CXX := clang++
 CXXFLAGS := -std=c++17 -Wall
 
-TESTS := huffmanTreeTests #encodeTests
+TESTS := huffmanTreeTests encodeTests
 
 all:
 
