@@ -2,7 +2,6 @@
 #define HUFFMAN_TREE_H
 
 #include <array>
-#include <cstdint>
 
 constexpr size_t CHAR_COUNT = 256;
 

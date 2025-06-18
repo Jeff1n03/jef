@@ -5,7 +5,7 @@
 using namespace std;
 
 void testOne() {
-    Encode encode = Encode{"tests/encodeTests.txt"};
+    Encode encode = Encode{"tests/data/encodeTests.txt"};
     array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
     array<uint8_t, CHAR_COUNT> actualLengths = encode.getLengths();
     array<uint64_t, CHAR_COUNT> expectedCodes = {};
