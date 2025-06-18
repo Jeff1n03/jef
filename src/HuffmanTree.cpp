@@ -1,4 +1,5 @@
 #include "../include/HuffmanTree.h"
+#include <cstdint>
 #include <queue>
 
 using namespace std;
