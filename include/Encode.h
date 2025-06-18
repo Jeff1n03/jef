@@ -7,8 +7,8 @@
 class Encode {
     private:
         std::string src;
-        std::array<uint64_t, CHAR_COUNT> codes = {};
-        std::array<uint8_t, CHAR_COUNT> lengths = {};
+        std::array<uint64_t, CHAR_COUNT> codes;
+        std::array<uint8_t, CHAR_COUNT> lengths;
 
     public:
         Encode(std::string src);
