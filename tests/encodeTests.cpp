@@ -22,6 +22,7 @@ void testOne() {
     expectedLengths[static_cast<unsigned char>('d')] = 1;
     assert(actualCodes == expectedCodes);
     assert(actualLengths == expectedLengths);
+    assert(encode.getOffset() == 2);
 }
 
 int main() {

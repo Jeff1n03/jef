@@ -19,12 +19,15 @@ Encode::Encode(string src) : src(src) {
         throw invalid_argument("failed to initialize huffman tree");
     }
     this->codes = huffmanTree->codes(this->lengths);
+    uint8_t bit = 0;
     vector<unsigned char> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
+        bit = (bit + this->lengths[i]) % BYTE_SIZE;
         if (this->lengths[i] > 0) {
             sorted.push_back(static_cast<unsigned char>(i));
         }
     }
+    this->offset = BYTE_SIZE - bit;
     sort(sorted.begin(), sorted.end(),
          [this](unsigned char a, unsigned char b) {
              if (this->lengths[a] == this->lengths[b]) {
@@ -50,6 +53,8 @@ string Encode::getDefaultDest() { return this->src + ".fin"; }
 array<uint64_t, CHAR_COUNT> Encode::getCodes() { return this->codes; }
 
 array<uint8_t, CHAR_COUNT> Encode::getLengths() { return this->lengths; }
+
+uint8_t Encode::getOffset() { return this->offset; }
 
 void Encode::toFile(string dest) {
     // TODO
