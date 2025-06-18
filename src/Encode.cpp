@@ -19,7 +19,11 @@ Encode::Encode(string src) : src(src) {
         throw invalid_argument("failed to initialize huffman tree");
     }
     this->codes = huffmanTree->codes(this->lengths);
-    uint8_t bit = 0;
+    constructorHelper();
+}
+
+void Encode::constructorHelper() {
+    uint64_t bit = 0;
     vector<unsigned char> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
         bit = (bit + this->lengths[i]) % BYTE_SIZE;
