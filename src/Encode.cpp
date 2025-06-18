@@ -15,12 +15,11 @@ Encode::Encode(string src) : src(src) {
         frequencies[ascii]++;
     }
     file.close();
-    HuffmanTree *huffmanTree = new HuffmanTree{frequencies};
+    unique_ptr<HuffmanTree> huffmanTree = make_unique<HuffmanTree>(frequencies);
     if (!huffmanTree->getRoot()) {
         throw invalid_argument("failed to initialize huffman tree");
     }
     this->codes = huffmanTree->codes(this->lengths);
-    delete huffmanTree;
     vector<unsigned char> sorted(CHAR_COUNT);
     iota(sorted.begin(), sorted.end(), 0);
     sort(sorted.begin(), sorted.end(),
