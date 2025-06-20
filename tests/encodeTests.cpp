@@ -30,14 +30,16 @@ void testTwo() {
     try {
         Encode encode = Encode{"tests/data/input-0.txt"};
     } catch (const std::exception &e) {
-        assert(strcmp(e.what(), FAIL_OPEN_FILE) == 0);
-        failOpenFile = true;
+        if (strcmp(e.what(), FAIL_OPEN_FILE) == 0) {
+            failOpenFile = true;
+        }
     }
     try {
         Encode encode = Encode{"tests/data/input-2.txt"};
     } catch (const std::exception &e) {
-        assert(strcmp(e.what(), FAIL_INIT_TREE) == 0);
-        failInitTree = true;
+        if (strcmp(e.what(), FAIL_INIT_TREE) == 0) {
+            failInitTree = true;
+        }
     }
     assert(failOpenFile);
     assert(failInitTree);
