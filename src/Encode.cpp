@@ -23,15 +23,15 @@ Encode::Encode(string src) : src(src) {
 }
 
 void Encode::constructorHelper() {
-    uint64_t bit = 0;
+    uint8_t bit = 0;
     vector<unsigned char> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
-        bit = (bit + this->lengths[i]) % BYTE_SIZE;
+        bit = (bit + this->lengths[i]) % static_cast<uint8_t>(BYTE_SIZE);
         if (this->lengths[i] > 0) {
             sorted.push_back(static_cast<unsigned char>(i));
         }
     }
-    this->offset = BYTE_SIZE - bit;
+    this->offset = static_cast<uint8_t>(BYTE_SIZE) - bit;
     sort(sorted.begin(), sorted.end(),
          [this](unsigned char a, unsigned char b) {
              if (this->lengths[a] == this->lengths[b]) {

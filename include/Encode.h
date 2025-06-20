@@ -4,7 +4,7 @@
 #include "HuffmanTree.h"
 #include <string>
 
-inline constexpr uint8_t BYTE_SIZE = 8;
+inline constexpr size_t BYTE_SIZE = 8;
 inline constexpr const char *FAIL_OPEN_FILE = "failed to open file",
                             *FAIL_INIT_TREE = "failed to initialize "
                                               "huffman tree";
