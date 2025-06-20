@@ -6,22 +6,22 @@ TESTS := huffmanTreeTests encodeTests
 all:
 
 huffmanTreeTests: build/huffmanTreeTests.o build/HuffmanTree.o
-	$(CXX) $(CXXFLAGS) build/huffmanTreeTests.o build/HuffmanTree.o -o bin/huffmanTreeTests
+	$(CXX) $(CXXFLAGS) $^ -o bin/$@
 
 encodeTests: build/encodeTests.o build/Encode.o build/HuffmanTree.o
-	$(CXX) $(CXXFLAGS) build/encodeTests.o build/Encode.o build/HuffmanTree.o -o bin/encodeTests
+	$(CXX) $(CXXFLAGS) $^ -o bin/$@
 
 build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp
-	$(CXX) $(CXXFLAGS) -c tests/huffmanTreeTests.cpp -o build/huffmanTreeTests.o
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build/encodeTests.o: tests/encodeTests.cpp
-	$(CXX) $(CXXFLAGS) -c tests/encodeTests.cpp -o build/encodeTests.o
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h
-	$(CXX) $(CXXFLAGS) -c src/HuffmanTree.cpp -o build/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build/Encode.o: src/Encode.cpp include/Encode.h include/HuffmanTree.h
-	$(CXX) $(CXXFLAGS) -c src/Encode.cpp -o build/Encode.o
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 test: $(TESTS)
 	@for test in $(TESTS); do \
