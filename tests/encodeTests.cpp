@@ -25,10 +25,30 @@ void testOne() {
     assert(encode.getOffset() == 2);
 }
 
+void testTwo() {
+    bool failOpenFile = false, failInitTree = false;
+    try {
+        Encode encode = Encode{"tests/data/input-0.txt"};
+    } catch (const std::exception &e) {
+        assert(strcmp(e.what(), FAIL_OPEN_FILE) == 0);
+        failOpenFile = true;
+    }
+    try {
+        Encode encode = Encode{"tests/data/input-2.txt"};
+    } catch (const std::exception &e) {
+        assert(strcmp(e.what(), FAIL_INIT_TREE) == 0);
+        failInitTree = true;
+    }
+    assert(failOpenFile);
+    assert(failInitTree);
+}
+
 int main() {
     cout << "\nencodeTests: Begin..." << endl;
     testOne();
     cout << "encodeTests: Passed Test 1" << endl;
+    testTwo();
+    cout << "encodeTests: Passed Test 2" << endl;
     cout << "encodeTests: ...Done" << endl;
     return 0;
 }
