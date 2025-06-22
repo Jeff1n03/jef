@@ -9,7 +9,7 @@ Encode::Encode(string src) : src(src) {
         throw invalid_argument{FAIL_OPEN_FILE};
     }
     unsigned char ascii;
-    array<uint64_t, CHAR_COUNT> frequencies = {};
+    array<uint64_t, CHAR_COUNT> frequencies{};
     while (file.read(reinterpret_cast<char *>(&ascii), sizeof(unsigned char))) {
         frequencies[ascii]++;
     }

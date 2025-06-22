@@ -9,7 +9,7 @@ using HuffmanTreeNodePQ =
 HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
     : frequencies(frequencies) {
     HuffmanTreeNodePQ pqueue;
-    for (int i = 0; i < this->frequencies.size(); i++) {
+    for (size_t i = 0; i < this->frequencies.size(); i++) {
         if (this->frequencies[i] > 0) {
             pqueue.push(new HuffmanTreeNode{
                 new unsigned char{static_cast<unsigned char>(i)},
