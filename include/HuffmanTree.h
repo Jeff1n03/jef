@@ -3,10 +3,10 @@
 
 #include <array>
 
-constexpr size_t CHAR_COUNT = 256;
+inline constexpr size_t CHAR_COUNT = 256;
 
 struct HuffmanTreeNode {
-        unsigned char *ascii;
+        uint8_t *ascii;
         uint64_t count;
         HuffmanTreeNode *left, *right;
 };

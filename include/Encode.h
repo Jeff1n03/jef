@@ -15,7 +15,7 @@ class Encode {
         std::array<uint64_t, CHAR_COUNT> codes;
         std::array<uint8_t, CHAR_COUNT> lengths;
         uint8_t offset;
-        void constructorHelper();
+        void constructorHelper(std::array<uint64_t, CHAR_COUNT> &frequencies);
 
     public:
         Encode(std::string src);

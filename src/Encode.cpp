@@ -8,9 +8,9 @@ Encode::Encode(string src) : src(src) {
     if (!file) {
         throw invalid_argument(FAIL_OPEN_FILE);
     }
-    unsigned char ascii;
+    uint8_t ascii;
     array<uint64_t, CHAR_COUNT> frequencies = {};
-    while (file.read(reinterpret_cast<char *>(&ascii), sizeof(unsigned char))) {
+    while (file.read(reinterpret_cast<char *>(&ascii), sizeof(uint8_t))) {
         frequencies[ascii]++;
     }
     file.close();
@@ -21,26 +21,25 @@ Encode::Encode(string src) : src(src) {
     }
     this->codes = huffmanTreePtr->codes(this->lengths);
     delete huffmanTreePtr;
-    constructorHelper();
+    constructorHelper(frequencies);
 }
 
-void Encode::constructorHelper() {
-    uint8_t bit = 0;
-    vector<unsigned char> sorted;
+void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
+    uint64_t bit = 0;
+    vector<uint8_t> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
-        bit = (bit + this->lengths[i]) % static_cast<uint8_t>(BYTE_SIZE);
+        bit = (bit + (this->lengths[i] * frequencies[i])) % BYTE_SIZE;
         if (this->lengths[i] > 0) {
-            sorted.push_back(static_cast<unsigned char>(i));
+            sorted.push_back(i);
         }
     }
-    this->offset = static_cast<uint8_t>(BYTE_SIZE) - bit;
-    sort(sorted.begin(), sorted.end(),
-         [this](unsigned char a, unsigned char b) {
-             if (this->lengths[a] == this->lengths[b]) {
-                 return a < b;
-             }
-             return this->lengths[a] < this->lengths[b];
-         });
+    this->offset = BYTE_SIZE - bit;
+    sort(sorted.begin(), sorted.end(), [this](uint8_t a, uint8_t b) {
+        if (this->lengths[a] == this->lengths[b]) {
+            return a < b;
+        }
+        return this->lengths[a] < this->lengths[b];
+    });
     uint64_t code = 0;
     this->codes[sorted[0]] = code;
     uint8_t prevLen = this->lengths[sorted[0]];
@@ -63,7 +62,35 @@ array<uint8_t, CHAR_COUNT> Encode::getLengths() { return this->lengths; }
 uint8_t Encode::getOffset() { return this->offset; }
 
 void Encode::toFile(string dest) {
-    // TODO
+    ifstream srcFile(this->src, ios::binary);
+    if (!srcFile) {
+        throw invalid_argument(FAIL_OPEN_FILE);
+    }
+    ofstream destFile(dest, ios::binary);
+    if (!destFile) {
+        throw invalid_argument(FAIL_OPEN_FILE);
+    }
+    destFile.write(reinterpret_cast<char *>(this->lengths.data()),
+                   this->lengths.size() * sizeof(uint8_t));
+    destFile.write(reinterpret_cast<char *>(&this->offset), sizeof(uint8_t));
+    uint8_t ascii, mask = 0x1, byte = 0x0, acc = this->offset;
+    while (srcFile.read(reinterpret_cast<char *>(&ascii), sizeof(uint8_t))) {
+        for (int i = this->lengths[ascii] - 1; i >= 0; i--) {
+            uint64_t bit = (this->codes[ascii] >> i) & mask;
+            if (bit == 1) {
+                byte |= mask;
+            }
+            acc++;
+            if (acc == BYTE_SIZE) {
+                destFile.write(reinterpret_cast<char *>(&byte),
+                               sizeof(uint8_t));
+                acc = 0, byte = 0x0;
+            }
+            byte <<= 1;
+        }
+    }
+    srcFile.close();
+    destFile.close();
 }
 
 void Encode::toFile() { toFile(getDefaultDest()); }
