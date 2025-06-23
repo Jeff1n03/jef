@@ -1,4 +1,5 @@
 #include "../include/HuffmanTree.h"
+#include <cstdint>
 #include <queue>
 
 using namespace std;
@@ -107,7 +108,7 @@ void HuffmanTree::codesHelper(HuffmanTreeNode *node, uint64_t code,
 array<uint64_t, CHAR_COUNT>
 HuffmanTree::codes(array<uint8_t, CHAR_COUNT> &lengths) {
     lengths.fill(0);
-    array<uint64_t, CHAR_COUNT> codes{};
+    array<uint64_t, CHAR_COUNT> codes = {};
     codesHelper(this->root, 0, 0, codes, lengths);
     return codes;
 }

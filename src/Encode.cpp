@@ -4,9 +4,9 @@
 using namespace std;
 
 Encode::Encode(string src) : src(src) {
-    ifstream file{this->src, ios::binary};
+    ifstream file(this->src, ios::binary);
     if (!file) {
-        throw invalid_argument{FAIL_OPEN_FILE};
+        throw invalid_argument(FAIL_OPEN_FILE);
     }
     unsigned char ascii;
     array<uint64_t, CHAR_COUNT> frequencies{};
@@ -14,13 +14,11 @@ Encode::Encode(string src) : src(src) {
         frequencies[ascii]++;
     }
     file.close();
-    HuffmanTree *huffmanTree = new HuffmanTree{frequencies};
+    unique_ptr<HuffmanTree> huffmanTree = make_unique<HuffmanTree>(frequencies);
     if (!huffmanTree->getRoot()) {
-        delete huffmanTree;
-        throw invalid_argument{FAIL_INIT_TREE};
+        throw invalid_argument(FAIL_INIT_TREE);
     }
     this->codes = huffmanTree->codes(this->lengths);
-    delete huffmanTree;
     constructorHelper();
 }
 

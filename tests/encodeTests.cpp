@@ -5,11 +5,11 @@
 using namespace std;
 
 void testOne() {
-    Encode encode{"tests/data/input-1.txt"};
+    Encode encode = Encode{"tests/data/input-1.txt"};
     array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
     array<uint8_t, CHAR_COUNT> actualLengths = encode.getLengths();
-    array<uint64_t, CHAR_COUNT> expectedCodes{};
-    array<uint8_t, CHAR_COUNT> expectedLengths{};
+    array<uint64_t, CHAR_COUNT> expectedCodes = {};
+    array<uint8_t, CHAR_COUNT> expectedLengths = {};
     expectedCodes[static_cast<unsigned char>('\n')] = 0b1110;
     expectedLengths[static_cast<unsigned char>('\n')] = 4;
     expectedCodes[static_cast<unsigned char>('a')] = 0b1111;
@@ -28,14 +28,14 @@ void testOne() {
 void testTwo() {
     bool failOpenFile = false, failInitTree = false;
     try {
-        Encode encode{"tests/data/input-0.txt"};
+        Encode encode = Encode{"tests/data/input-0.txt"};
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_OPEN_FILE) == 0) {
             failOpenFile = true;
         }
     }
     try {
-        Encode encode{"tests/data/input-2.txt"};
+        Encode encode = Encode{"tests/data/input-2.txt"};
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_INIT_TREE) == 0) {
             failInitTree = true;
