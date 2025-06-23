@@ -1,5 +1,4 @@
 #include "../include/HuffmanTree.h"
-#include <cstdint>
 #include <queue>
 
 using namespace std;
@@ -13,8 +12,7 @@ HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
     for (size_t i = 0; i < this->frequencies.size(); i++) {
         if (this->frequencies[i] > 0) {
             pqueue.push(new HuffmanTreeNode{
-                new unsigned char{static_cast<unsigned char>(i)},
-                this->frequencies[i], nullptr, nullptr});
+                new unsigned char(i), this->frequencies[i], nullptr, nullptr});
         }
     }
     if (pqueue.empty()) {

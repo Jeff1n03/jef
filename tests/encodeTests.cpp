@@ -5,7 +5,7 @@
 using namespace std;
 
 void testOne() {
-    Encode encode = Encode{"tests/data/input-1.txt"};
+    Encode encode("tests/data/input-1.txt");
     array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
     array<uint8_t, CHAR_COUNT> actualLengths = encode.getLengths();
     array<uint64_t, CHAR_COUNT> expectedCodes = {};
@@ -28,14 +28,14 @@ void testOne() {
 void testTwo() {
     bool failOpenFile = false, failInitTree = false;
     try {
-        Encode encode = Encode{"tests/data/input-0.txt"};
+        Encode encode("tests/data/input-0.txt");
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_OPEN_FILE) == 0) {
             failOpenFile = true;
         }
     }
     try {
-        Encode encode = Encode{"tests/data/input-2.txt"};
+        Encode encode("tests/data/input-2.txt");
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_INIT_TREE) == 0) {
             failInitTree = true;

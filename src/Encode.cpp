@@ -9,16 +9,18 @@ Encode::Encode(string src) : src(src) {
         throw invalid_argument(FAIL_OPEN_FILE);
     }
     unsigned char ascii;
-    array<uint64_t, CHAR_COUNT> frequencies{};
+    array<uint64_t, CHAR_COUNT> frequencies = {};
     while (file.read(reinterpret_cast<char *>(&ascii), sizeof(unsigned char))) {
         frequencies[ascii]++;
     }
     file.close();
-    unique_ptr<HuffmanTree> huffmanTree = make_unique<HuffmanTree>(frequencies);
-    if (!huffmanTree->getRoot()) {
+    HuffmanTree *huffmanTreePtr = new HuffmanTree(frequencies);
+    if (!huffmanTreePtr->getRoot()) {
+        delete huffmanTreePtr;
         throw invalid_argument(FAIL_INIT_TREE);
     }
-    this->codes = huffmanTree->codes(this->lengths);
+    this->codes = huffmanTreePtr->codes(this->lengths);
+    delete huffmanTreePtr;
     constructorHelper();
 }
 
