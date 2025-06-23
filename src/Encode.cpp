@@ -61,15 +61,7 @@ array<uint8_t, CHAR_COUNT> Encode::getLengths() { return this->lengths; }
 
 uint8_t Encode::getOffset() { return this->offset; }
 
-void Encode::toFile(string dest) {
-    ifstream srcFile(this->src, ios::binary);
-    if (!srcFile) {
-        throw invalid_argument(FAIL_OPEN_FILE);
-    }
-    ofstream destFile(dest, ios::binary);
-    if (!destFile) {
-        throw invalid_argument(FAIL_OPEN_FILE);
-    }
+void Encode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
     destFile.write(reinterpret_cast<char *>(this->lengths.data()),
                    this->lengths.size() * sizeof(uint8_t));
     destFile.write(reinterpret_cast<char *>(&this->offset), sizeof(uint8_t));
@@ -89,6 +81,18 @@ void Encode::toFile(string dest) {
             byte <<= 1;
         }
     }
+}
+
+void Encode::toFile(string dest) {
+    ifstream srcFile(this->src, ios::binary);
+    if (!srcFile) {
+        throw invalid_argument(FAIL_OPEN_FILE);
+    }
+    ofstream destFile(dest, ios::binary);
+    if (!destFile) {
+        throw invalid_argument(FAIL_OPEN_FILE);
+    }
+    toFileHelper(srcFile, destFile);
     srcFile.close();
     destFile.close();
 }

@@ -46,8 +46,6 @@ void testTwo() {
 }
 
 void testThree() {
-    // Encode encode("tests/data/input-1.txt");
-    // encode.toFile();
     // TODO
 }
 

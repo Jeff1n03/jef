@@ -16,6 +16,7 @@ class Encode {
         std::array<uint8_t, CHAR_COUNT> lengths;
         uint8_t offset;
         void constructorHelper(std::array<uint64_t, CHAR_COUNT> &frequencies);
+        void toFileHelper(std::ifstream &srcFile, std::ofstream &destFile);
 
     public:
         Encode(std::string src);
