@@ -6,7 +6,7 @@ using namespace std;
 Encode::Encode(string src) : src(src) {
     ifstream file(this->src, ios::binary);
     if (!file) {
-        throw invalid_argument(FAIL_OPEN_FILE);
+        throw invalid_argument(FAIL_READ_FILE);
     }
     uint8_t ascii;
     array<uint64_t, CHAR_COUNT> frequencies = {};
@@ -86,11 +86,11 @@ void Encode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
 void Encode::toFile(string dest) {
     ifstream srcFile(this->src, ios::binary);
     if (!srcFile) {
-        throw invalid_argument(FAIL_OPEN_FILE);
+        throw invalid_argument(FAIL_READ_FILE);
     }
     ofstream destFile(dest, ios::binary);
     if (!destFile) {
-        throw invalid_argument(FAIL_OPEN_FILE);
+        throw invalid_argument(FAIL_WRITE_FILE);
     }
     toFileHelper(srcFile, destFile);
     srcFile.close();

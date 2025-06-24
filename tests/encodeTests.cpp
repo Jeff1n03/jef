@@ -30,7 +30,7 @@ void testTwo() {
     try {
         Encode encode("tests/data/input-0.txt");
     } catch (const std::exception &e) {
-        if (strcmp(e.what(), FAIL_OPEN_FILE) == 0) {
+        if (strcmp(e.what(), FAIL_READ_FILE) == 0) {
             failOpenFile = true;
         }
     }
