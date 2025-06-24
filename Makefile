@@ -1,5 +1,5 @@
 CXX := clang++
-CXXFLAGS := -std=c++17 -Wall -g
+CXXFLAGS := -std=c++17 -Wall -g # REMOVE DEBUG FLAG
 
 TESTS := huffmanTreeTests encodeTests
 
