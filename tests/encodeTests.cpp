@@ -26,12 +26,12 @@ void testOne() {
 }
 
 void testTwo() {
-    bool failOpenFile = false, failInitTree = false;
+    bool failReadFile = false, failInitTree = false;
     try {
         Encode encode("tests/data/input-0.txt");
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_READ_FILE) == 0) {
-            failOpenFile = true;
+            failReadFile = true;
         }
     }
     try {
@@ -41,7 +41,7 @@ void testTwo() {
             failInitTree = true;
         }
     }
-    assert(failOpenFile);
+    assert(failReadFile);
     assert(failInitTree);
 }
 
