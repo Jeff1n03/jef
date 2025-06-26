@@ -3,4 +3,8 @@
 
 using namespace std;
 
-Decode::Decode(string src) : src(src) {}
+Decode::Decode(string src) : src(src) {
+    /*
+     *  TODO
+     */
+}
