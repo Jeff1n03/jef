@@ -30,3 +30,5 @@ test: $(TESTS)
 
 clean:
 	rm build/* bin/*
+
+.PHONY: all test clean
