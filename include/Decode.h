@@ -1,7 +1,7 @@
 #ifndef DECODE_H
 #define DECODE_H
 
-#include "Encode.h"
+#include <string>
 
 class Decode {
     private:
