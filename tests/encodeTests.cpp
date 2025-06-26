@@ -1,5 +1,6 @@
 #include "../include/Encode.h"
 #include <cassert>
+#include <fstream>
 #include <iostream>
 
 using namespace std;
@@ -46,7 +47,18 @@ void testTwo() {
 }
 
 void testThree() {
-    // TODO
+    Encode encode("tests/data/input-1.txt");
+    encode.toFile();
+    ifstream actual(encode.getDefaultDest(), ios::binary),
+        expected("tests/data/output-1.txt", ios::binary);
+    uint8_t ac, ex;
+    while (actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
+           expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
+        assert(ac == ex);
+    }
+    assert(!actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
+           !expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t)));
+    filesystem::remove(encode.getDefaultDest());
 }
 
 int main() {
