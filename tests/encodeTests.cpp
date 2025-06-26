@@ -29,14 +29,14 @@ void testOne() {
 void testTwo() {
     bool failReadFile = false, failInitTree = false;
     try {
-        Encode encode("tests/data/input-0.txt");
+        Encode encode("tests/data/input-dne.txt");
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_READ_FILE) == 0) {
             failReadFile = true;
         }
     }
     try {
-        Encode encode("tests/data/input-2.txt");
+        Encode encode("tests/data/input-0.txt");
     } catch (const std::exception &e) {
         if (strcmp(e.what(), FAIL_INIT_TREE) == 0) {
             failInitTree = true;
