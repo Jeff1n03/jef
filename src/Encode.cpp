@@ -1,4 +1,5 @@
 #include "../include/Encode.h"
+#include "../include/code.h"
 #include <fstream>
 
 using namespace std;
