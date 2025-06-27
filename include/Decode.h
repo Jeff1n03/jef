@@ -6,9 +6,11 @@
 class Decode {
     private:
         std::string src;
+        // TODO
 
     public:
         Decode(std::string src);
+        // TODO
 };
 
 #endif
