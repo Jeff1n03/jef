@@ -1,5 +1,5 @@
 #include "../include/Decode.h"
-#include "../include/Encode.h"
+// #include "../include/Encode.h"
 
 using namespace std;
 
