@@ -1,9 +1,8 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
+#include "config.h"
 #include <array>
-
-inline constexpr size_t CHAR_COUNT = 256;
 
 struct HuffmanTreeNode {
         uint8_t *ascii;

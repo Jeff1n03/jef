@@ -1,5 +1,4 @@
-#include "../include/Encode.h"
-#include "../include/config.h"
+#include "../include/Decode.h"
 #include <cassert>
 #include <fstream>
 #include <iostream>

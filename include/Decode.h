@@ -1,6 +1,7 @@
 #ifndef DECODE_H
 #define DECODE_H
 
+#include "config.h"
 #include <string>
 
 class Decode {
