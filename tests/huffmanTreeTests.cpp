@@ -114,7 +114,7 @@ void testFour() {
 }
 
 int main() {
-    cout << "\nhuffmanTreeTests: Begin..." << endl;
+    cout << "huffmanTreeTests: Begin..." << endl;
     testOne();
     cout << "huffmanTreeTests: Passed Test 1" << endl;
     testTwo();

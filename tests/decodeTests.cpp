@@ -10,7 +10,7 @@ void testOne() {
 }
 
 int main() {
-    cout << "\ndecodeTests: Begin..." << endl;
+    cout << "decodeTests: Begin..." << endl;
     testOne();
     cout << "decodeTests: Passed Test 1" << endl;
     cout << "decodeTests: ...Done" << endl;

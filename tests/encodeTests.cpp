@@ -62,7 +62,7 @@ void testThree() {
 }
 
 int main() {
-    cout << "\nencodeTests: Begin..." << endl;
+    cout << "encodeTests: Begin..." << endl;
     testOne();
     cout << "encodeTests: Passed Test 1" << endl;
     testTwo();
