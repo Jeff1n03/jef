@@ -1,29 +1,29 @@
 CXX := g++
 CXXFLAGS := -std=c++17 -Wall -g # REMOVE DEBUG FLAG
 
-TESTS := huffmanTreeTests encodeTests decodeTests
+TESTS := bin/huffmanTreeTests bin/encodeTests bin/decodeTests
 
 all:
 
-huffmanTreeTests: build/huffmanTreeTests.o build/HuffmanTree.o
-	$(CXX) $(CXXFLAGS) $^ -o bin/$@
+bin/huffmanTreeTests: build/huffmanTreeTests.o build/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-encodeTests: build/encodeTests.o build/Encode.o build/HuffmanTree.o
-	$(CXX) $(CXXFLAGS) $^ -o bin/$@
+bin/encodeTests: build/encodeTests.o build/Encode.o build/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-decodeTests: build/decodeTests.o build/Decode.o
-	$(CXX) $(CXXFLAGS) $^ -o bin/$@
+bin/decodeTests: build/decodeTests.o build/Decode.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp
+build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/encodeTests.o: tests/encodeTests.cpp
+build/encodeTests.o: tests/encodeTests.cpp include/Encode.h include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/decodeTests.o: tests/decodeTests.cpp
+build/decodeTests.o: tests/decodeTests.cpp include/Decode.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h
+build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build/Encode.o: src/Encode.cpp include/Encode.h include/HuffmanTree.h include/config.h
@@ -33,8 +33,10 @@ build/Decode.o: src/Decode.cpp include/Decode.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 test: $(TESTS)
+	@printf "\n"
 	@for test in $(TESTS); do \
-		./bin/$$test; \
+		./$$test; \
+		printf "\n"; \
 	done
 
 clean:
