@@ -26,7 +26,7 @@ double Decode::kraftMcMillan() {
     double sum = 0.0;
     for (uint8_t len : this->lengths) {
         if (len > MAX_BITS) {
-            throw invalid_argument(CODE_OVERFLOW);
+            throw length_error(CODE_OVERFLOW);
         }
         if (len > 0) {
             sum += 1.0 / pow(2.0, len);

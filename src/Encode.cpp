@@ -21,7 +21,7 @@ Encode::Encode(string src) : src(src) {
     }
     if (huffmanTreeP->depth() > MAX_BITS) {
         delete huffmanTreeP;
-        throw invalid_argument(CODE_OVERFLOW);
+        throw length_error(CODE_OVERFLOW);
     }
     this->codes = huffmanTreeP->codes(this->lengths);
     delete huffmanTreeP;
