@@ -14,20 +14,24 @@ Encode::Encode(string src) : src(src) {
         frequencies[ascii]++;
     }
     file.close();
-    HuffmanTree *huffmanTreePtr = new HuffmanTree(frequencies);
-    if (!huffmanTreePtr->getRoot()) {
-        delete huffmanTreePtr;
+    HuffmanTree *huffmanTreeP = new HuffmanTree(frequencies);
+    if (!huffmanTreeP->getRoot()) {
+        delete huffmanTreeP;
         throw invalid_argument(FAIL_INIT_TREE);
     }
-    this->codes = huffmanTreePtr->codes(this->lengths);
-    delete huffmanTreePtr;
+    if (huffmanTreeP->depth() > MAX_BITS) {
+        delete huffmanTreeP;
+        throw invalid_argument(CODE_OVERFLOW);
+    }
+    this->codes = huffmanTreeP->codes(this->lengths);
+    delete huffmanTreeP;
     constructorHelper(frequencies);
 }
 
 void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
     uint64_t bit = 0;
     vector<uint8_t> sorted;
-    for (size_t i = 0; i < CHAR_COUNT; i++) {
+    for (size_t i = 0; i < this->lengths.size(); i++) {
         bit = (bit + (this->lengths[i] * frequencies[i])) % BYTE_SIZE;
         if (this->lengths[i] > 0) {
             sorted.push_back(i);
@@ -53,7 +57,7 @@ void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
 
 string Encode::getSrc() { return this->src; }
 
-string Encode::getDefaultDest() { return this->src + ".fin"; }
+string Encode::getDefaultDest() { return this->src + FILE_EXTENSION; }
 
 array<uint64_t, CHAR_COUNT> Encode::getCodes() { return this->codes; }
 

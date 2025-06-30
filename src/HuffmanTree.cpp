@@ -56,16 +56,16 @@ array<uint64_t, CHAR_COUNT> HuffmanTree::getFrequencies() {
 
 HuffmanTreeNode *HuffmanTree::getRoot() { return this->root; }
 
-int HuffmanTree::depth() {
+size_t HuffmanTree::depth() {
     if (!root) {
         return 0;
     }
     queue<HuffmanTreeNode *> q;
     q.push(this->root);
-    int height = 0;
+    size_t height = 0;
     while (!q.empty()) {
-        int levelSize = q.size();
-        for (int i = 0; i < levelSize; i++) {
+        size_t levelSize = q.size();
+        for (size_t i = 0; i < levelSize; i++) {
             HuffmanTreeNode *curr = q.front();
             q.pop();
             if (curr->left) {
