@@ -31,7 +31,7 @@ Encode::Encode(string src) : src(src) {
 void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
     uint64_t bit = 0;
     vector<uint8_t> sorted;
-    for (size_t i = 0; i < this->lengths.size(); i++) {
+    for (size_t i = 0; i < CHAR_COUNT; i++) {
         bit = (bit + (this->lengths[i] * frequencies[i])) % BYTE_SIZE;
         if (this->lengths[i] > 0) {
             sorted.push_back(i);
