@@ -15,20 +15,16 @@ Encode::Encode(string src) : src(src) {
     }
     file.close();
     HuffmanTree *huffmanTreeP = new HuffmanTree(frequencies);
-    if (!huffmanTreeP->getRoot()) {
-        delete huffmanTreeP;
-        throw invalid_argument(FAIL_INIT_TREE);
-    }
     if (huffmanTreeP->depth() > MAX_BITS) {
         delete huffmanTreeP;
         throw length_error(CODE_OVERFLOW);
     }
     this->codes = huffmanTreeP->codes(this->lengths);
     delete huffmanTreeP;
-    constructorHelper(frequencies);
+    sortLengths(frequencies);
 }
 
-void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
+void Encode::sortLengths(array<uint64_t, CHAR_COUNT> &frequencies) {
     uint64_t bit = 0;
     vector<uint8_t> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
@@ -37,7 +33,17 @@ void Encode::constructorHelper(array<uint64_t, CHAR_COUNT> &frequencies) {
             sorted.push_back(i);
         }
     }
-    this->offset = BYTE_SIZE - bit;
+    if (bit == 0) {
+        this->offset = bit;
+    } else {
+        this->offset = BYTE_SIZE - bit;
+    }
+    if (!sorted.empty()) {
+        canonicalCodes(sorted);
+    }
+}
+
+void Encode::canonicalCodes(vector<uint8_t> &sorted) {
     sort(sorted.begin(), sorted.end(), [this](uint8_t a, uint8_t b) {
         if (this->lengths[a] == this->lengths[b]) {
             return a < b;

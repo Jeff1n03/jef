@@ -2,7 +2,7 @@
 #define ENCODE_H
 
 #include "HuffmanTree.h"
-#include <string>
+#include <vector>
 
 class Encode {
     private:
@@ -10,7 +10,8 @@ class Encode {
         std::array<uint64_t, CHAR_COUNT> codes;
         std::array<uint8_t, CHAR_COUNT> lengths;
         uint8_t offset;
-        void constructorHelper(std::array<uint64_t, CHAR_COUNT> &frequencies);
+        void sortLengths(std::array<uint64_t, CHAR_COUNT> &frequencies),
+            canonicalCodes(std::vector<uint8_t> &sorted);
         void toFileHelper(std::ifstream &srcFile, std::ofstream &destFile);
 
     public:

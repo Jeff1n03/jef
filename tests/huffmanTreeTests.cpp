@@ -110,7 +110,7 @@ void testFour() {
     array<uint8_t, CHAR_COUNT> lengths = {0, 1, 2, 3};
     array<uint64_t, CHAR_COUNT> codes = huffmanTree.codes(lengths);
     assert(codes == frequencies);
-    assert((lengths == array<uint8_t, CHAR_COUNT>{}));
+    assert((lengths == array<uint8_t, CHAR_COUNT>()));
 }
 
 int main() {

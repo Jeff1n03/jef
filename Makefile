@@ -1,4 +1,4 @@
-CXX := g++
+CXX := clang++
 CXXFLAGS := -std=c++17 -Wall -g # REMOVE DEBUG FLAG
 
 TESTS := bin/huffmanTreeTests bin/encodeTests bin/decodeTests
