@@ -18,7 +18,7 @@ class Decode {
         Decode(std::string src);
         std::string getSrc(), getDefaultDest();
         std::array<uint64_t, CHAR_COUNT> getCodes();
-        std::array<uint8_t, CHAR_COUNT> getlengths();
+        std::array<uint8_t, CHAR_COUNT> getLengths();
         size_t getOffset();
         void toFile(std::string dest), toFile();
 };

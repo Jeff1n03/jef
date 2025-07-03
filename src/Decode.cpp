@@ -67,7 +67,7 @@ string Decode::getDefaultDest() {
 
 array<uint64_t, CHAR_COUNT> Decode::getCodes() { return this->codes; }
 
-array<uint8_t, CHAR_COUNT> Decode::getlengths() { return this->lengths; }
+array<uint8_t, CHAR_COUNT> Decode::getLengths() { return this->lengths; }
 
 size_t Decode::getOffset() { return this->offset; }
 
