@@ -1,22 +1,8 @@
 #include "../include/Encode.h"
 #include <cassert>
-#include <fstream>
 #include <iostream>
 
 using namespace std;
-
-bool isEqual(string actual, string expected) {
-    ifstream acFile(actual, ios::binary), exFile(expected, ios::binary);
-    uint8_t ac, ex;
-    while (acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
-        if (ac != ex) {
-            return false;
-        }
-    }
-    return !acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           !exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t));
-}
 
 void testOne() {
     Encode encode("tests/data/input-0.txt");

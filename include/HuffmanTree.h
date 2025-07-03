@@ -1,7 +1,7 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
-#include "config.h"
+#include "utils.h"
 #include <array>
 
 struct HuffmanTreeNode {

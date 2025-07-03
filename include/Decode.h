@@ -1,7 +1,7 @@
 #ifndef DECODE_H
 #define DECODE_H
 
-#include "config.h"
+#include "utils.h"
 #include <array>
 #include <string>
 
