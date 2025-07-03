@@ -1,6 +1,5 @@
 #include "../include/Decode.h"
 #include <cassert>
-#include <fstream>
 #include <iostream>
 
 using namespace std;
