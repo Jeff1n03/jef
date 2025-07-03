@@ -21,10 +21,10 @@ Encode::Encode(string src) : src(src) {
     }
     this->codes = huffmanTreeP->codes(this->lengths);
     delete huffmanTreeP;
-    sortLengths(frequencies);
+    canonicalCodes(frequencies);
 }
 
-void Encode::sortLengths(array<uint64_t, CHAR_COUNT> &frequencies) {
+void Encode::canonicalCodes(array<uint64_t, CHAR_COUNT> &frequencies) {
     uint64_t bit = 0;
     vector<uint8_t> sorted;
     for (size_t i = 0; i < CHAR_COUNT; i++) {
@@ -39,11 +39,11 @@ void Encode::sortLengths(array<uint64_t, CHAR_COUNT> &frequencies) {
         this->offset = BYTE_SIZE - bit;
     }
     if (!sorted.empty()) {
-        canonicalCodes(sorted);
+        canonicalCodesHelper(sorted);
     }
 }
 
-void Encode::canonicalCodes(vector<uint8_t> &sorted) {
+void Encode::canonicalCodesHelper(vector<uint8_t> &sorted) {
     sort(sorted.begin(), sorted.end(), [this](uint8_t a, uint8_t b) {
         if (this->lengths[a] == this->lengths[b]) {
             return a < b;
@@ -69,7 +69,7 @@ array<uint64_t, CHAR_COUNT> Encode::getCodes() { return this->codes; }
 
 array<uint8_t, CHAR_COUNT> Encode::getLengths() { return this->lengths; }
 
-uint8_t Encode::getOffset() { return this->offset; }
+size_t Encode::getOffset() { return this->offset; }
 
 void Encode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
     destFile.write(reinterpret_cast<char *>(this->lengths.data()),

@@ -58,3 +58,21 @@ void Decode::canonicalCodes() {
         prevLen = len;
     }
 }
+
+string Decode::getSrc() { return this->src; }
+
+string Decode::getDefaultDest() {
+    return this->src.substr(0, this->src.size() - strlen(FILE_EXTENSION));
+}
+
+array<uint64_t, CHAR_COUNT> Decode::getCodes() { return this->codes; }
+
+array<uint8_t, CHAR_COUNT> Decode::getlengths() { return this->lengths; }
+
+size_t Decode::getOffset() { return this->offset; }
+
+void Decode::toFile(string dest) {
+    // TODO
+}
+
+void Decode::toFile() { toFile(getDefaultDest()); }

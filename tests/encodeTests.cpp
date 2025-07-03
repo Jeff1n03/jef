@@ -5,6 +5,19 @@
 
 using namespace std;
 
+bool isEqual(string actual, string expected) {
+    ifstream acFile(actual, ios::binary), exFile(expected, ios::binary);
+    uint8_t ac, ex;
+    while (acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
+           exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
+        if (ac != ex) {
+            return false;
+        }
+    }
+    return !acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
+           !exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t));
+}
+
 void testOne() {
     Encode encode("tests/data/input-0.txt");
     array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
@@ -14,6 +27,9 @@ void testOne() {
     assert(actualCodes == expectedCodes);
     assert(actualLengths == expectedLengths);
     assert(encode.getOffset() == 0);
+    encode.toFile();
+    assert(isEqual(encode.getDefaultDest(), "tests/data/output-0.txt"));
+    remove(encode.getDefaultDest().c_str());
 }
 
 void testTwo() {
@@ -35,6 +51,9 @@ void testTwo() {
     assert(actualCodes == expectedCodes);
     assert(actualLengths == expectedLengths);
     assert(encode.getOffset() == 2);
+    encode.toFile();
+    assert(isEqual(encode.getDefaultDest(), "tests/data/output-1.txt"));
+    remove(encode.getDefaultDest().c_str());
 }
 
 void testThree() {
@@ -50,36 +69,6 @@ void testThree() {
     // TODO case where code is too long
 }
 
-void testFour() {
-    Encode encode("tests/data/input-1.txt");
-    encode.toFile();
-    ifstream actual(encode.getDefaultDest(), ios::binary),
-        expected("tests/data/output-1.txt", ios::binary);
-    uint8_t ac, ex;
-    while (actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
-        assert(ac == ex);
-    }
-    assert(!actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           !expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t)));
-    remove(encode.getDefaultDest().c_str());
-}
-
-void testFive() {
-    Encode encode("tests/data/input-0.txt");
-    encode.toFile();
-    ifstream actual(encode.getDefaultDest(), ios::binary),
-        expected("tests/data/output-0.txt", ios::binary);
-    uint8_t ac, ex;
-    while (actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
-        assert(ac == ex);
-    }
-    assert(!actual.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           !expected.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t)));
-    remove(encode.getDefaultDest().c_str());
-}
-
 int main() {
     cout << "encodeTests: Begin..." << endl;
     testOne();
@@ -88,10 +77,6 @@ int main() {
     cout << "encodeTests: Passed Test 2" << endl;
     testThree();
     cout << "encodeTests: Passed Test 3" << endl;
-    testFour();
-    cout << "encodeTests: Passed Test 4" << endl;
-    testFive();
-    cout << "encodeTests: Passed Test 5" << endl;
     cout << "encodeTests: ...Done" << endl;
     return 0;
 }
