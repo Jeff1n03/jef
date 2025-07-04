@@ -1,9 +1,9 @@
 #include "../include/Decode.h"
-#include <fstream>
+#include "../include/Encode.h"
 
 using namespace std;
 
-Decode::Decode(string src) : src(src) {
+Decode::Decode(string src) : src(src), codes({}) {
     ifstream file(this->src, ios::binary);
     if (!file) {
         throw invalid_argument(FAIL_READ_FILE);
@@ -71,8 +71,58 @@ array<uint8_t, CHAR_COUNT> Decode::getLengths() { return this->lengths; }
 
 size_t Decode::getOffset() { return this->offset; }
 
+bool Decode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
+    uint8_t byte, mask = 0x1, len = 0, pad = this->offset;
+    uint64_t code = 0;
+    while (srcFile.read(reinterpret_cast<char *>(&byte), sizeof(uint8_t))) {
+        for (int i = BYTE_SIZE - 1 - pad; i >= 0; i--) {
+            code <<= 1;
+            if (((byte >> i) & mask) == 1) {
+                code |= mask;
+            }
+            len++;
+            if (len > MAX_BITS) {
+                return false;
+            }
+            for (size_t j = 0; j < CHAR_COUNT; j++) {
+                if (this->codes[j] == code && this->lengths[j] == len) {
+                    uint8_t ascii = j;
+                    destFile.write(reinterpret_cast<char *>(&ascii),
+                                   sizeof(uint8_t));
+                    code = 0, len = 0;
+                    break;
+                }
+            }
+        }
+        pad = 0;
+    }
+    return code == 0 && len == 0;
+}
+
 void Decode::toFile(string dest) {
-    // TODO
+    ifstream srcFile(this->src, ios::binary);
+    if (!srcFile) {
+        throw invalid_argument(FAIL_READ_FILE);
+    }
+    srcFile.seekg(this->lengths.size() * sizeof(uint8_t) + sizeof(uint8_t));
+    ofstream destFile(dest, ios::binary);
+    if (!destFile) {
+        throw invalid_argument(FAIL_WRITE_FILE);
+    }
+    bool valid = toFileHelper(srcFile, destFile);
+    srcFile.close();
+    destFile.close();
+    if (!valid) {
+        remove(dest.c_str());
+        throw invalid_argument(FAIL_READ_FILE);
+    }
+    Encode expected(dest);
+    if (expected.getCodes() != this->codes ||
+        expected.getLengths() != this->lengths ||
+        expected.getOffset() != this->offset) {
+        remove(dest.c_str());
+        throw invalid_argument(FAIL_READ_FILE);
+    }
 }
 
 void Decode::toFile() { toFile(getDefaultDest()); }

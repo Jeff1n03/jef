@@ -1,7 +1,7 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
-#include "HuffmanTree.h"
+#include "utils.h"
 #include <vector>
 
 class Encode {

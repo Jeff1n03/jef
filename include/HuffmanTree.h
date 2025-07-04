@@ -5,6 +5,7 @@
 #include <array>
 
 struct HuffmanTreeNode {
+        int id;
         uint8_t *ascii;
         uint64_t count;
         HuffmanTreeNode *left, *right;
@@ -12,6 +13,9 @@ struct HuffmanTreeNode {
 
 struct HuffmanTreeNodeComparator {
         bool operator()(HuffmanTreeNode *x, HuffmanTreeNode *y) const {
+            if (x->count == y->count) {
+                return x->id < y->id;
+            }
             return x->count > y->count;
         }
 };

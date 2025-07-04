@@ -1,5 +1,5 @@
 #include "../include/Encode.h"
-#include <fstream>
+#include "../include/HuffmanTree.h"
 
 using namespace std;
 

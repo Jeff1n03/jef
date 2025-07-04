@@ -13,6 +13,7 @@ class Decode {
         uint8_t offset;
         double kraftMcMillan();
         void canonicalCodes();
+        bool toFileHelper(std::ifstream &srcFile, std::ofstream &destFile);
 
     public:
         Decode(std::string src);

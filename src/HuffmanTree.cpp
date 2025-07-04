@@ -8,17 +8,19 @@ using HuffmanTreeNodePQ =
 
 HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
     : frequencies(frequencies) {
+    int id = 0;
     HuffmanTreeNodePQ pqueue;
     for (size_t i = 0; i < this->frequencies.size(); i++) {
         if (this->frequencies[i] > 0) {
             pqueue.push(new HuffmanTreeNode{
-                new uint8_t(i), this->frequencies[i], nullptr, nullptr});
+                id, new uint8_t(i), this->frequencies[i], nullptr, nullptr});
+            id++;
         }
     }
     if (pqueue.empty()) {
         pqueue.push(nullptr);
     } else if (pqueue.size() == 1) {
-        pqueue.push(new HuffmanTreeNode{nullptr, 0, nullptr, nullptr});
+        pqueue.push(new HuffmanTreeNode{id, nullptr, 0, nullptr, nullptr});
     }
     while (pqueue.size() > 1) {
         HuffmanTreeNode *yin = pqueue.top();
@@ -26,7 +28,8 @@ HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
         HuffmanTreeNode *yang = pqueue.top();
         pqueue.pop();
         HuffmanTreeNode *yinYang =
-            new HuffmanTreeNode{nullptr, yin->count + yang->count, yang, yin};
+            new HuffmanTreeNode{max(yin->id, yang->id), nullptr,
+                                yin->count + yang->count, yang, yin};
         pqueue.push(yinYang);
     }
     this->root = pqueue.top();

@@ -5,7 +5,9 @@
 using namespace std;
 
 void testOne() {
-    // TODO
+    Decode decode("tests/data/output-1.txt");
+    decode.toFile("tests/data/monkey.txt");
+    remove("tests/data/monkey.txt");
 }
 
 int main() {
