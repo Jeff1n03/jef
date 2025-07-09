@@ -9,4 +9,5 @@ inline constexpr const char *FILE_EXTENSION = ".fin",
                             *CODE_OVERFLOW = "code exceeds 64 bits",
                             *FAIL_READ_FILE = "failed to read file",
                             *FAIL_WRITE_FILE = "failed to write file";
+
 #endif
