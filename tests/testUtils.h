@@ -1,14 +1,7 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef TEST_UTILS_H
+#define TEST_UTILS_H
 
-#include <fstream>
-
-inline constexpr size_t CHAR_COUNT = 256, BYTE_SIZE = 8, MAX_BITS = 64;
-
-inline constexpr const char *FILE_EXTENSION = ".fin",
-                            *CODE_OVERFLOW = "code exceeds 64 bits",
-                            *FAIL_READ_FILE = "failed to read file",
-                            *FAIL_WRITE_FILE = "failed to write file";
+#include "../include/config.h"
 
 inline bool isEqual(std::string actual, std::string expected) {
     std::ifstream acFile(actual, std::ios::binary),

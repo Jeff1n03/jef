@@ -14,22 +14,22 @@ bin/encodeTests: build/encodeTests.o build/Encode.o build/HuffmanTree.o
 bin/decodeTests: build/decodeTests.o build/Decode.o build/Encode.o build/HuffmanTree.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp include/HuffmanTree.h include/utils.h
+build/huffmanTreeTests.o: tests/huffmanTreeTests.cpp include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/encodeTests.o: tests/encodeTests.cpp include/Encode.h include/utils.h
+build/encodeTests.o: tests/encodeTests.cpp include/Encode.h tests/testUtils.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/decodeTests.o: tests/decodeTests.cpp include/Decode.h include/utils.h
+build/decodeTests.o: tests/decodeTests.cpp include/Decode.h tests/testUtils.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h include/utils.h
+build/HuffmanTree.o: src/HuffmanTree.cpp include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/Encode.o: src/Encode.cpp include/Encode.h include/HuffmanTree.h include/utils.h
+build/Encode.o: src/Encode.cpp include/Encode.h include/HuffmanTree.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/Decode.o: src/Decode.cpp include/Decode.h include/Encode.h include/utils.h
+build/Decode.o: src/Decode.cpp include/Decode.h include/Encode.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 test: $(TESTS)

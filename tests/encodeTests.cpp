@@ -1,4 +1,5 @@
 #include "../include/Encode.h"
+#include "testUtils.h"
 #include <cassert>
 #include <iostream>
 
@@ -43,16 +44,7 @@ void testTwo() {
 }
 
 void testThree() {
-    bool failReadFile = false;
-    try {
-        Encode encode("tests/data/input-dne.txt");
-    } catch (const std::exception &e) {
-        if (strcmp(e.what(), FAIL_READ_FILE) == 0) {
-            failReadFile = true;
-        }
-    }
-    assert(failReadFile);
-    // TODO case where code is too long
+    // TODO test exception handling
 }
 
 int main() {

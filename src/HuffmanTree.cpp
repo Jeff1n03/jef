@@ -8,28 +8,24 @@ using HuffmanTreeNodePQ =
 
 HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
     : frequencies(frequencies) {
-    int id = 0;
     HuffmanTreeNodePQ pqueue;
-    for (size_t i = 0; i < this->frequencies.size(); i++) {
+    for (int i = 0; i < this->frequencies.size(); i++) {
         if (this->frequencies[i] > 0) {
-            pqueue.push(new HuffmanTreeNode{
-                id, new uint8_t(i), this->frequencies[i], nullptr, nullptr});
-            id++;
+            pqueue.push(new HuffmanTreeNode{static_cast<uint8_t>(i),
+                                            this->frequencies[i], nullptr,
+                                            nullptr});
         }
     }
     if (pqueue.empty()) {
         pqueue.push(nullptr);
-    } else if (pqueue.size() == 1) {
-        pqueue.push(new HuffmanTreeNode{id, nullptr, 0, nullptr, nullptr});
     }
     while (pqueue.size() > 1) {
         HuffmanTreeNode *yin = pqueue.top();
         pqueue.pop();
         HuffmanTreeNode *yang = pqueue.top();
         pqueue.pop();
-        HuffmanTreeNode *yinYang =
-            new HuffmanTreeNode{max(yin->id, yang->id), nullptr,
-                                yin->count + yang->count, yang, yin};
+        HuffmanTreeNode *yinYang = new HuffmanTreeNode{
+            min(yin->ascii, yang->ascii), yin->count + yang->count, yin, yang};
         pqueue.push(yinYang);
     }
     this->root = pqueue.top();
@@ -65,10 +61,10 @@ size_t HuffmanTree::depth() {
     }
     queue<HuffmanTreeNode *> q;
     q.push(this->root);
-    size_t height = 0;
+    int height = 0;
     while (!q.empty()) {
-        size_t levelSize = q.size();
-        for (size_t i = 0; i < levelSize; i++) {
+        int levelSize = q.size();
+        for (int i = 0; i < levelSize; i++) {
             HuffmanTreeNode *curr = q.front();
             q.pop();
             if (curr->left) {
@@ -87,15 +83,9 @@ void HuffmanTree::codesHelper(HuffmanTreeNode *node, uint64_t code,
                               uint8_t length,
                               array<uint64_t, CHAR_COUNT> &codes,
                               array<uint8_t, CHAR_COUNT> &lengths) {
-    if (!node) {
-        return;
-    }
-    if (node->ascii) {
-        codes[*(node->ascii)] = code;
-        lengths[*(node->ascii)] = length;
-        return;
-    }
     if (!node->left && !node->right) {
+        codes[node->ascii] = code;
+        lengths[node->ascii] = length;
         return;
     }
     if (node->left) {
@@ -110,6 +100,8 @@ array<uint64_t, CHAR_COUNT>
 HuffmanTree::codes(array<uint8_t, CHAR_COUNT> &lengths) {
     lengths.fill(0);
     array<uint64_t, CHAR_COUNT> codes = {};
-    codesHelper(this->root, 0, 0, codes, lengths);
+    if (this->root) {
+        codesHelper(this->root, 0, 0, codes, lengths);
+    }
     return codes;
 }

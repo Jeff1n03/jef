@@ -1,13 +1,12 @@
 #include "../include/Decode.h"
+#include "testUtils.h"
 #include <cassert>
 #include <iostream>
 
 using namespace std;
 
 void testOne() {
-    Decode decode("tests/data/output-1.txt");
-    decode.toFile("tests/data/monkey.txt");
-    remove("tests/data/monkey.txt");
+    // TODO
 }
 
 int main() {

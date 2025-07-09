@@ -1,7 +1,7 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
-#include "utils.h"
+#include "config.h"
 #include <vector>
 
 class Encode {

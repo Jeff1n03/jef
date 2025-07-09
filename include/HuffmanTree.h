@@ -1,12 +1,11 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
-#include "utils.h"
+#include "config.h"
 #include <array>
 
 struct HuffmanTreeNode {
-        int id;
-        uint8_t *ascii;
+        uint8_t ascii;
         uint64_t count;
         HuffmanTreeNode *left, *right;
 };
@@ -14,7 +13,7 @@ struct HuffmanTreeNode {
 struct HuffmanTreeNodeComparator {
         bool operator()(HuffmanTreeNode *x, HuffmanTreeNode *y) const {
             if (x->count == y->count) {
-                return x->id < y->id;
+                return x->ascii > y->ascii;
             }
             return x->count > y->count;
         }
