@@ -1,9 +1,12 @@
 CXX := clang++
-CXXFLAGS := -std=c++17 -Wall -g # REMOVE DEBUG FLAG
+CXXFLAGS := -std=c++17 -Wall -g
 
 TESTS := bin/huffmanTreeTests bin/encodeTests bin/decodeTests
 
-all:
+all: bin/jef
+
+bin/jef: build/main.o build/Decode.o build/Encode.o build/HuffmanTree.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 bin/huffmanTreeTests: build/huffmanTreeTests.o build/HuffmanTree.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
@@ -30,6 +33,9 @@ build/Encode.o: src/Encode.cpp include/Encode.h include/HuffmanTree.h include/co
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build/Decode.o: src/Decode.cpp include/Decode.h include/Encode.h include/config.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+build/main.o: src/main.cpp include/Decode.h include/Encode.h include/config.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 test: $(TESTS)

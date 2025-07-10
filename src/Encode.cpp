@@ -14,13 +14,11 @@ Encode::Encode(string src) : src(src) {
         frequencies[ascii]++;
     }
     file.close();
-    HuffmanTree *huffmanTreeP = new HuffmanTree(frequencies);
-    if (huffmanTreeP->depth() > MAX_BITS) {
-        delete huffmanTreeP;
+    HuffmanTree huffmanTree(frequencies);
+    if (huffmanTree.depth() > MAX_BITS) {
         throw length_error(CODE_OVERFLOW);
     }
-    this->codes = huffmanTreeP->codes(this->lengths);
-    delete huffmanTreeP;
+    this->codes = huffmanTree.codes(this->lengths);
     canonicalCodes(frequencies);
 }
 
