@@ -1,6 +1,5 @@
 #include "../include/HuffmanTree.h"
 #include <cassert>
-#include <cstdint>
 #include <iostream>
 
 using namespace std;
@@ -34,7 +33,14 @@ void testTwo() {
 }
 
 void testThree() {
-    // TODO input 1
+    array<uint64_t, CHAR_COUNT> counts = {};
+    counts[static_cast<uint8_t>('a')] = 1;
+    counts[static_cast<uint8_t>('b')] = 2;
+    counts[static_cast<uint8_t>('c')] = 4;
+    counts[static_cast<uint8_t>('d')] = 8;
+    counts[static_cast<uint8_t>('\n')] = 1;
+    HuffmanTree huffmanTree(counts);
+    // TODO cont. input 1 test
 }
 
 int main() {
