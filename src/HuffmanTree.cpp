@@ -6,7 +6,7 @@ using HuffmanTreeNodePQ =
     priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
                    HuffmanTreeNodeComparator>;
 
-HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> &frequencies)
+HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> frequencies)
     : frequencies(frequencies) {
     HuffmanTreeNodePQ pqueue;
     for (int i = 0; i < this->frequencies.size(); i++) {
@@ -101,7 +101,11 @@ HuffmanTree::codes(array<uint8_t, CHAR_COUNT> &lengths) {
     lengths.fill(0);
     array<uint64_t, CHAR_COUNT> codes = {};
     if (this->root) {
-        codesHelper(this->root, 0, 0, codes, lengths);
+        if (this->root->left && this->root->right) {
+            codesHelper(this->root, 0, 0, codes, lengths);
+        } else {
+            codesHelper(this->root, 0, 1, codes, lengths);
+        }
     }
     return codes;
 }

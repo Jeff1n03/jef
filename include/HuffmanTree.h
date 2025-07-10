@@ -28,7 +28,7 @@ class HuffmanTree {
                          std::array<uint8_t, CHAR_COUNT> &lengths);
 
     public:
-        HuffmanTree(std::array<uint64_t, CHAR_COUNT> &frequencies);
+        HuffmanTree(std::array<uint64_t, CHAR_COUNT> frequencies);
         ~HuffmanTree();
         HuffmanTreeNode *getRoot();
         std::array<uint64_t, CHAR_COUNT> getFrequencies(),

@@ -6,13 +6,12 @@
 using namespace std;
 
 void testOne() {
-    Encode encode("tests/data/input-0.txt");
-    array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
-    array<uint8_t, CHAR_COUNT> actualLengths = encode.getLengths();
-    array<uint64_t, CHAR_COUNT> expectedCodes = {};
-    array<uint8_t, CHAR_COUNT> expectedLengths = {};
-    assert(actualCodes == expectedCodes);
-    assert(actualLengths == expectedLengths);
+    string srcFile = "tests/data/input-0.txt";
+    Encode encode(srcFile);
+    assert(encode.getSrc() == srcFile);
+    assert(encode.getDefaultDest() == srcFile + FILE_EXTENSION);
+    assert((encode.getCodes() == array<uint64_t, CHAR_COUNT>()));
+    assert((encode.getLengths() == array<uint8_t, CHAR_COUNT>()));
     assert(encode.getOffset() == 0);
     encode.toFile();
     assert(isEqual(encode.getDefaultDest(), "tests/data/output-0.txt"));
@@ -20,9 +19,10 @@ void testOne() {
 }
 
 void testTwo() {
-    Encode encode("tests/data/input-1.txt");
-    array<uint64_t, CHAR_COUNT> actualCodes = encode.getCodes();
-    array<uint8_t, CHAR_COUNT> actualLengths = encode.getLengths();
+    string srcFile = "tests/data/input-1.txt";
+    Encode encode(srcFile);
+    assert(encode.getSrc() == srcFile);
+    assert(encode.getDefaultDest() == srcFile + FILE_EXTENSION);
     array<uint64_t, CHAR_COUNT> expectedCodes = {};
     array<uint8_t, CHAR_COUNT> expectedLengths = {};
     expectedCodes[static_cast<uint8_t>('\n')] = 0b1110;
@@ -35,8 +35,8 @@ void testTwo() {
     expectedLengths[static_cast<uint8_t>('c')] = 2;
     expectedCodes[static_cast<uint8_t>('d')] = 0b0;
     expectedLengths[static_cast<uint8_t>('d')] = 1;
-    assert(actualCodes == expectedCodes);
-    assert(actualLengths == expectedLengths);
+    assert(encode.getCodes() == expectedCodes);
+    assert(encode.getLengths() == expectedLengths);
     assert(encode.getOffset() == 2);
     encode.toFile();
     assert(isEqual(encode.getDefaultDest(), "tests/data/output-1.txt"));
