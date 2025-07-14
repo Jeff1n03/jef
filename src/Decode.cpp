@@ -16,10 +16,12 @@ Decode::Decode(string src) : src(src), codes({}) {
         throw invalid_argument(FAIL_READ_FILE);
     }
     double sum = kraftMcMillan();
-    if (sum == 0.0 || sum > 1.0) {
+    if (sum > 1.0) {
         throw invalid_argument(FAIL_READ_FILE);
     }
-    canonicalCodes();
+    if (sum > 0.0) {
+        canonicalCodes();
+    }
 }
 
 double Decode::kraftMcMillan() {
