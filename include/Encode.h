@@ -2,6 +2,10 @@
 #define ENCODE_H
 
 #include "config.h"
+#include <array>
+#include <cstdint>
+#include <fstream>
+#include <string>
 #include <vector>
 
 class Encode {

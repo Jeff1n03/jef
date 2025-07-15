@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <fstream>
+#include <cstddef>
 
 inline constexpr size_t CHAR_COUNT = 256, BYTE_SIZE = 8, MAX_BITS = 64;
 

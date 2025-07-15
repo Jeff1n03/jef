@@ -3,6 +3,8 @@
 
 #include "config.h"
 #include <array>
+#include <cstddef>
+#include <cstdint>
 
 struct HuffmanTreeNode {
         uint8_t ascii;

@@ -3,6 +3,8 @@
 
 #include "config.h"
 #include <array>
+#include <cstdint>
+#include <fstream>
 #include <string>
 
 class Decode {
