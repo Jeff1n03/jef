@@ -1,5 +1,6 @@
 #include "../include/Encode.h"
 #include "../include/HuffmanTree.h"
+#include <algorithm>
 #include <stdexcept>
 
 using namespace std;

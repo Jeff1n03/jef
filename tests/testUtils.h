@@ -3,6 +3,7 @@
 
 #include "../include/config.h"
 #include <fstream>
+#include <string>
 
 inline bool isEqual(std::string actual, std::string expected) {
     std::ifstream acFile(actual, std::ios::binary),
@@ -14,15 +15,15 @@ inline bool isEqual(std::string actual, std::string expected) {
         throw std::invalid_argument(std::string(FAIL_READ_FILE) + ' ' +
                                     expected);
     }
-    uint8_t ac, ex;
-    while (acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t))) {
+    unsigned char ac, ex;
+    while (acFile.read(reinterpret_cast<char *>(&ac), sizeof(unsigned char)) &&
+           exFile.read(reinterpret_cast<char *>(&ex), sizeof(unsigned char))) {
         if (ac != ex) {
             return false;
         }
     }
-    return !acFile.read(reinterpret_cast<char *>(&ac), sizeof(uint8_t)) &&
-           !exFile.read(reinterpret_cast<char *>(&ex), sizeof(uint8_t));
+    return !acFile.read(reinterpret_cast<char *>(&ac), sizeof(unsigned char)) &&
+           !exFile.read(reinterpret_cast<char *>(&ex), sizeof(unsigned char));
 }
 
 #endif

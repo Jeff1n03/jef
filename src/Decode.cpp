@@ -1,6 +1,8 @@
 #include "../include/Decode.h"
 #include "../include/Encode.h"
+#include <algorithm>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
 
