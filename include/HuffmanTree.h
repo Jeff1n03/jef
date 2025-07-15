@@ -3,7 +3,6 @@
 
 #include "config.h"
 #include <array>
-#include <cstddef>
 #include <cstdint>
 
 struct HuffmanTreeNode {

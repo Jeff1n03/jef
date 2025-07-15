@@ -2,6 +2,7 @@
 #define TEST_UTILS_H
 
 #include "../include/config.h"
+#include <fstream>
 
 inline bool isEqual(std::string actual, std::string expected) {
     std::ifstream acFile(actual, std::ios::binary),
