@@ -1,10 +1,20 @@
 #include "../include/Decode.h"
 #include "../include/Encode.h"
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
+
+struct HashFunc {
+        size_t operator()(const pair<uint64_t, uint8_t> &p) const {
+            size_t hashA = hash<uint64_t>{}(p.first);
+            size_t hashB = hash<uint8_t>{}(p.second);
+            return hashA ^ (hashB + 0x9e3779b9 + (hashA << 6) + (hashA >> 2));
+        }
+};
 
 Decode::Decode(string src) : src(src), codes({}) {
     ifstream file(this->src, ios::binary);
@@ -77,6 +87,10 @@ array<uint8_t, CHAR_COUNT> Decode::getLengths() { return this->lengths; }
 size_t Decode::getOffset() { return this->offset; }
 
 bool Decode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
+    unordered_map<pair<uint64_t, uint8_t>, uint8_t, HashFunc> codesM;
+    for (int i = 0; i < CHAR_COUNT; i++) {
+        codesM[make_pair(this->codes[i], this->lengths[i])] = i;
+    }
     uint8_t byte, mask = 0x1, len = 0, pad = this->offset;
     uint64_t code = 0;
     while (srcFile.read(reinterpret_cast<char *>(&byte), sizeof(uint8_t))) {
@@ -89,14 +103,11 @@ bool Decode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
             if (len > MAX_BITS) {
                 return false;
             }
-            for (size_t j = 0; j < CHAR_COUNT; j++) {
-                if (this->codes[j] == code && this->lengths[j] == len) {
-                    uint8_t ascii = j;
-                    destFile.write(reinterpret_cast<char *>(&ascii),
-                                   sizeof(uint8_t));
-                    code = 0, len = 0;
-                    break;
-                }
+            auto ascii = codesM.find(make_pair(code, len));
+            if (ascii != codesM.end()) {
+                destFile.write(reinterpret_cast<char *>(&(ascii->second)),
+                               sizeof(uint8_t));
+                code = 0, len = 0;
             }
         }
         pad = 0;

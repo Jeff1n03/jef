@@ -2,13 +2,20 @@
 #include <queue>
 
 using namespace std;
-using HuffmanTreeNodePQ =
-    priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>,
-                   HuffmanTreeNodeComparator>;
+
+struct NodeComparator {
+        bool operator()(HuffmanTreeNode *x, HuffmanTreeNode *y) const {
+            if (x->count == y->count) {
+                return x->ascii > y->ascii;
+            }
+            return x->count > y->count;
+        }
+};
 
 HuffmanTree::HuffmanTree(array<uint64_t, CHAR_COUNT> frequencies)
     : frequencies(frequencies) {
-    HuffmanTreeNodePQ pqueue;
+    priority_queue<HuffmanTreeNode *, vector<HuffmanTreeNode *>, NodeComparator>
+        pqueue;
     for (int i = 0; i < this->frequencies.size(); i++) {
         if (this->frequencies[i] > 0) {
             pqueue.push(new HuffmanTreeNode{static_cast<uint8_t>(i),

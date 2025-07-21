@@ -11,15 +11,6 @@ struct HuffmanTreeNode {
         HuffmanTreeNode *left, *right;
 };
 
-struct HuffmanTreeNodeComparator {
-        bool operator()(HuffmanTreeNode *x, HuffmanTreeNode *y) const {
-            if (x->count == y->count) {
-                return x->ascii > y->ascii;
-            }
-            return x->count > y->count;
-        }
-};
-
 class HuffmanTree {
     private:
         std::array<uint64_t, CHAR_COUNT> frequencies;
