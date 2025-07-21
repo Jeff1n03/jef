@@ -1,7 +1,6 @@
 #include "../include/Decode.h"
 #include "../include/Encode.h"
 #include <algorithm>
-#include <iostream>
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>
