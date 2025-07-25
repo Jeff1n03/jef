@@ -44,7 +44,7 @@ void testTwo() {
 }
 
 void testThree() {
-    // TODO test exception handling
+    // TODO exception handling
 }
 
 int main() {

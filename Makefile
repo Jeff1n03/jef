@@ -1,9 +1,16 @@
 CXX := clang++
-CXXFLAGS := -std=c++17 -Wall -g
+CXXFLAGS := -std=c++17 -Wall -O2
 
 TESTS := bin/huffmanTreeTests bin/encodeTests bin/decodeTests
 
 all: bin/jef
+
+install: bin/jef
+	install -d /usr/local/bin/
+	install -m 755 $< /usr/local/bin/
+
+uninstall:
+	rm -f /usr/local/bin/jef
 
 bin/jef: build/main.o build/Decode.o build/Encode.o build/HuffmanTree.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
