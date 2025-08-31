@@ -1,6 +1,8 @@
 #include "../include/Decode.h"
 #include "../include/Encode.h"
 #include <algorithm>
+#include <cmath>
+#include <cstring>
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>
@@ -87,7 +89,7 @@ size_t Decode::getOffset() { return this->offset; }
 
 bool Decode::toFileHelper(ifstream &srcFile, ofstream &destFile) {
     unordered_map<pair<uint64_t, uint8_t>, uint8_t, HashFunc> codesM;
-    for (int i = 0; i < CHAR_COUNT; i++) {
+    for (size_t i = 0; i < CHAR_COUNT; i++) {
         codesM[make_pair(this->codes[i], this->lengths[i])] = i;
     }
     uint8_t byte, mask = 0x1, len = 0, pad = this->offset;
