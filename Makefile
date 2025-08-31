@@ -1,4 +1,4 @@
-CXX := clang++
+CXX ?= c++
 CXXFLAGS := -std=c++17 -Wall -O2
 
 all: bin/jef
