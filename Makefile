@@ -3,9 +3,15 @@ CXXFLAGS := -std=c++17 -Wall -O2
 
 all: bin/jef
 
-install: bin/jef
+install: install-bin install-man
+
+install-bin: bin/jef
 	install -d /usr/local/bin/
 	install -m 755 $< /usr/local/bin/
+
+install-man: man/man1/jef.1
+	install -d /usr/local/share/man/man1/
+	install -m 644 $< /usr/local/share/man/man1/
 
 bin/jef: build/main.o build/Decode.o build/Encode.o build/HuffmanTree.o | bin
 	$(CXX) $(CXXFLAGS) $^ -o $@
