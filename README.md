@@ -12,12 +12,12 @@ git clone --depth 1 https://github.com/Jeff1n03/jef.git && \
 cd jef/ && make && sudo make install && cd ../ && \
 rm -rf jef/
 ```
-and enter your user account password, if prompted.
+and enter your **user account password**, if prompted.
 # Uninstallation Guide
 **In a terminal emulator**, run
 ```sh
 sudo rm -f /usr/local/bin/jef /usr/local/share/man/man1/jef.1
 ```
-and enter your user account password, if prompted.
+and enter your **user account password**, if prompted.
 # Resources
 **In a terminal emulator**, run `man 1 jef`.
