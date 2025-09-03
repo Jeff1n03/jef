@@ -1,18 +1,26 @@
 .TH JEF 1
 .SH NAME
-jef \- a lossless file compression utility
+jef \- a file compression, and decompression, utility
 .SH SYNOPSIS
 .B jef
 [\fB\-r\fR]
 .IR file
+.br
+.B jef
+[\fB\-r\fR]
+.IR file.fin
 .SH DESCRIPTION
 The
 .B jef
-utility uses the Huffman coding algorithm to losslessly compress files. It outputs...
-.SH OPTIONS
+utility uses the Huffman coding algorithm to compress files, generating a file with the name \fIfile\fR plus a
+\fI.fin\fR extension. It also decompresses \fI.fin\fR files, generating a file with the name \fIfile.fin\fR minus the
+\fI.fin\fR extension.
+.br
+.sp
+The following option is available:
 .TP
 .BR \-r
-TODO
+Replace the input file with the output file on success.
 .SH EXIT STATUS
 The
 .B jef
